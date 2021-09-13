@@ -1,0 +1,33 @@
+{
+  "buildFiles": [
+    "C:\\Users\\Chelsea Smile\\AndroidStudioProjects\\Sensor\\app\\src\\main\\cpp\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\android_sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+      "-C",
+      "C:\\Users\\Chelsea Smile\\AndroidStudioProjects\\Sensor\\app\\.cxx\\cmake\\release\\x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\android_sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+    "-C",
+    "C:\\Users\\Chelsea Smile\\AndroidStudioProjects\\Sensor\\app\\.cxx\\cmake\\release\\x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "native-lib-Release-x86": {
+      "artifactName": "native-lib",
+      "buildCommandComponents": [
+        "C:\\android_sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+        "-C",
+        "C:\\Users\\Chelsea Smile\\AndroidStudioProjects\\Sensor\\app\\.cxx\\cmake\\release\\x86",
+        "native-lib"
+      ],
+      "abi": "x86",
+      "output": "C:\\Users\\Chelsea Smile\\AndroidStudioProjects\\Sensor\\app\\build\\intermediates\\cmake\\release\\obj\\x86\\libnative-lib.so",
+      "runtimeFiles": []
+    }
+  }
+}

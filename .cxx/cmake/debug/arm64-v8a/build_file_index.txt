@@ -1,0 +1,1 @@
+C:\Users\Chelsea Smile\AndroidStudioProjects\Sensor\app\src\main\cpp\CMakeLists.txt

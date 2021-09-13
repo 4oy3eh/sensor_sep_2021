@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SavingData">
+
+    <EditText
+        android:id="@+id/txt_filename_edit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="[filename]"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_filename_title"
+        app:layout_constraintStart_toEndOf="@+id/txt_filename_title"
+        app:layout_constraintTop_toTopOf="@+id/txt_filename_title" />
+
+    <TextView
+        android:id="@+id/txt_filename_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="Filename:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_generate_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Generate"
+        app:layout_constraintEnd_toStartOf="@+id/btn_set_name"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_filename_edit" />
+
+    <Button
+        android:id="@+id/btn_set_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="set"
+        app:layout_constraintEnd_toStartOf="@+id/btn_start_save"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_generate_name"
+        app:layout_constraintTop_toBottomOf="@+id/txt_filename_edit" />
+
+    <Button
+        android:id="@+id/btn_start_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="start"
+        app:layout_constraintEnd_toStartOf="@+id/btn_stop_save"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_set_name"
+        app:layout_constraintTop_toBottomOf="@+id/txt_filename_edit" />
+
+    <Button
+        android:id="@+id/btn_stop_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="stop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_start_save"
+        app:layout_constraintTop_toBottomOf="@+id/txt_filename_edit" />
+
+    <TextView
+        android:id="@+id/txt_filename_fixed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="Filename:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_refresh" />
+
+    <TextView
+        android:id="@+id/txt_filename_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:text="file_name"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_filename_fixed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txt_filename_fixed" />
+
+    <TextView
+        android:id="@+id/txt_measure_fixed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Measurement:"
+        app:layout_constraintStart_toStartOf="@+id/txt_filename_fixed"
+        app:layout_constraintTop_toBottomOf="@+id/txt_dir" />
+
+    <TextView
+        android:id="@+id/txt_measurement_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:text="OFF"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_measure_fixed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txt_measure_fixed" />
+
+    <TextView
+        android:id="@+id/txt_dir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Directory:"
+        app:layout_constraintStart_toStartOf="@+id/txt_filename_fixed"
+        app:layout_constraintTop_toBottomOf="@+id/txt_filename_fixed" />
+
+    <TextView
+        android:id="@+id/txt_directory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="directory"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_dir"
+        app:layout_constraintStart_toStartOf="@+id/txt_filename_preview"
+        app:layout_constraintTop_toTopOf="@+id/txt_dir" />
+
+    <TextView
+        android:id="@+id/txt_packets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Time:"
+        app:layout_constraintStart_toStartOf="@+id/txt_measure_fixed"
+        app:layout_constraintTop_toBottomOf="@+id/txt_measure_fixed" />
+
+    <TextView
+        android:id="@+id/txt_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0 ms"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_packets"
+        app:layout_constraintStart_toStartOf="@+id/txt_measurement_state"
+        app:layout_constraintTop_toTopOf="@+id/txt_packets" />
+
+    <ListView
+        android:id="@+id/fileList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:divider="#03A9F4"
+        android:dividerHeight="1dp"
+        android:listSelector="#0f0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_packets"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_reconnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/btn_reconnect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_delete"
+        app:layout_constraintTop_toBottomOf="@+id/btn_stop_save" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_delete"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_reconnect"
+        app:layout_constraintEnd_toStartOf="@+id/btn_reconnect"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_refresh"
+        app:layout_constraintTop_toTopOf="@+id/btn_reconnect" />
+
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_refresh"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_delete"
+        app:layout_constraintEnd_toStartOf="@+id/btn_delete"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_delete" />
+</androidx.constraintlayout.widget.ConstraintLayout>
