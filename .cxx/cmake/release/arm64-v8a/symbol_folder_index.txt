@@ -1,1 +1,0 @@
-C:\Users\Chelsea Smile\AndroidStudioProjects\Sensor\app\build\intermediates\cmake\release\obj\arm64-v8a

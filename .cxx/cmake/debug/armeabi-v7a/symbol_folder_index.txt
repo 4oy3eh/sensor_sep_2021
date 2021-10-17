@@ -1,1 +1,0 @@
-C:\Users\Chelsea Smile\AndroidStudioProjects\Sensor\app\build\intermediates\cmake\debug\obj\armeabi-v7a

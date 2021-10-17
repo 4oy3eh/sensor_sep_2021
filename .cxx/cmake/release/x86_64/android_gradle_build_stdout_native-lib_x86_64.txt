@@ -1,2 +1,0 @@
-ninja: Entering directory `C:\Users\Chelsea Smile\AndroidStudioProjects\Sensor\app\.cxx\cmake\release\x86_64'
-ninja: no work to do.

@@ -1,7 +1,0 @@
-Executable : C:\android_sdk\cmake\3.10.2.4988404\bin\ninja.exe
-arguments : 
--C
-C:\Users\Chelsea Smile\AndroidStudioProjects\Sensor\app\.cxx\cmake\release\x86
-native-lib
-jvmArgs : 
-
