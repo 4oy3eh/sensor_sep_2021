@@ -1,4 +1,4 @@
-package com.example.smartsockssensor;
+package com.example.sensor;
 
 import org.junit.Test;
 
