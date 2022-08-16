@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:context=".Config">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_savedata"
+                style="@style/ToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:icon="@android:drawable/ic_menu_save"
+
+                />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <Button
+            android:id="@+id/play"
+            style="@style/ToggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/btn_right"
+            android:visibility="visible"
+            app:icon="@android:drawable/ic_media_play" />
+
+        <Button
+            android:id="@+id/btn_left"
+            style="@style/ToggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/toggleButton"
+            android:text="l"
+            android:visibility="visible"
+            app:icon="@drawable/ic_baseline_refresh_24" />
+
+        <Button
+            android:id="@+id/btn_right"
+            style="@style/ToggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/btn_left"
+            android:text="r"
+            android:visibility="visible"
+            app:icon="@drawable/ic_baseline_refresh_24" />
+
+
+        <Button
+            android:id="@+id/btn_testtopbar5"
+            style="@style/ToggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/play"
+            android:enabled="false"
+            android:text="NW"
+            android:visibility="gone"
+            app:icon="@drawable/ic_settings" />
+
+        <Button
+            android:id="@+id/btn_calib_cop"
+            style="@style/ToggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/btn_testtopbar5"
+            android:text="callibration"
+            android:visibility="visible"
+            app:icon="@drawable/ic_leg_up" />
+
+
+        <Button
+            android:id="@+id/btn_break"
+            style="@style/ToggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Break"
+            android:visibility="invisible"
+            app:icon="@drawable/skip_icon"
+            android:layout_toRightOf="@id/btn_calib_cop"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/design_default_color_primary" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/ButtonLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:singleSelection="true">
+
+        <Button
+            android:id="@+id/btn_visual"
+            style="@style/ToggleButton"
+
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="Values"
+            android:textAlignment="center"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_cop"
+            style="@style/ToggleButton"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="CoP"
+            android:textAlignment="center"
+            android:visibility="visible"
+
+            />
+
+        <Button
+            android:id="@+id/btn_graph"
+            style="@style/ToggleButton"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="Graph"
+            android:textAlignment="center"
+            android:visibility="visible"
+
+            />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:weightSum="100"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:id="@+id/layoutVisual_left"
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dip">
+
+            <ImageView
+                android:id="@+id/image_rightarrow_left"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:src="@drawable/right_arrow"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_leftarrow_left"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:src="@drawable/left_arrow"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_downarrow_left"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:src="@drawable/ok_sign"
+                android:visibility="invisible" />
+
+
+            <ImageView
+                android:id="@+id/imageCop_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:orientation="vertical"
+                android:src="@drawable/main_bez_liniy_l"
+                android:visibility="invisible" />
+
+            //first sensor
+
+            <ImageView
+                android:id="@+id/image_1sensor_g_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleX="1"
+                android:src="@drawable/sens_1_g_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_1sensor_y_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_1_y_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_1sensor_r_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_1_r_l"
+                android:visibility="invisible" />
+
+
+            //second sensor
+
+            <ImageView
+                android:id="@+id/image_2sensor_g_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_2_g_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_2sensor_y_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_2_y_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_2sensor_r_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_2_r_l"
+                android:visibility="invisible" />
+
+
+            //third sensor
+
+            <ImageView
+                android:id="@+id/image_3sensor_g_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_3_g_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_3sensor_y_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_3_y_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_3sensor_r_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_3_r_l"
+                android:visibility="invisible" />
+
+
+            //fourth sensor
+
+            <ImageView
+                android:id="@+id/image_4sensor_g_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_4_g_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_4sensor_y_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_4_y_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_4sensor_r_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_4_r_l"
+                android:visibility="invisible" />
+
+            //fifth sensor
+
+            <ImageView
+                android:id="@+id/image_5sensor_g_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_5_g_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_5sensor_y_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_5_y_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_5sensor_r_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_5_r_l"
+                android:visibility="invisible" />
+
+
+            //sixth sensor
+
+            <ImageView
+                android:id="@+id/image_6sensor_g_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_6_g_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_6sensor_y_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_6_y_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_6sensor_r_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_6_r_l"
+                android:visibility="invisible" />
+
+
+            //верхний слой
+
+            <ImageView
+                android:id="@+id/image_first_l_left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:orientation="vertical"
+                android:src="@drawable/main_l"
+                android:visibility="visible" />
+
+            // image cop
+
+            <LinearLayout
+                android:id="@+id/leftgroup"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/layoutText1and2left"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textsensor2left"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:text="00001"
+                        android:textColor="#000"
+                        android:textSize="30sp"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/textsensor1left"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:text="00002"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="30sp"
+                        android:visibility="invisible" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutText3and4left"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textsensor4left"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:text="00003"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="30sp"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/invisiblebutton2left"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/textsensor3left"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:text="00004"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="30sp"
+                        android:visibility="invisible" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutText5and6left"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textsensor6left"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:text="00005"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="30sp"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/invisiblebutton3left"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/textsensor5left"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:text="00006"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="30sp"
+                        android:visibility="invisible" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:id="@+id/layoutVisual_right"
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dip">
+
+            <ImageView
+                android:id="@+id/image_rightarrow_right"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:src="@drawable/right_arrow"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_leftarrow_right"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:src="@drawable/left_arrow"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_downarrow_right"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:src="@drawable/ok_sign"
+                android:visibility="invisible" />
+
+
+            <ImageView
+                android:id="@+id/imageCop_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:orientation="vertical"
+                android:src="@drawable/main_bez_liniy_l"
+                android:visibility="invisible" />
+
+            //first sensor
+
+            <ImageView
+                android:id="@+id/image_1sensor_g_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleX="1"
+                android:src="@drawable/sens_1_g_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_1sensor_y_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_1_y_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_1sensor_r_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_1_r_l"
+                android:visibility="invisible" />
+
+
+            //second sensor
+
+            <ImageView
+                android:id="@+id/image_2sensor_g_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_2_g_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_2sensor_y_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_2_y_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_2sensor_r_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_2_r_l"
+                android:visibility="invisible" />
+
+
+            //third sensor
+
+            <ImageView
+                android:id="@+id/image_3sensor_g_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_3_g_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_3sensor_y_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_3_y_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_3sensor_r_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_3_r_l"
+                android:visibility="invisible" />
+
+
+            //fourth sensor
+
+            <ImageView
+                android:id="@+id/image_4sensor_g_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_4_g_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_4sensor_y_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_4_y_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_4sensor_r_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_4_r_l"
+                android:visibility="invisible" />
+
+            //fifth sensor
+
+            <ImageView
+                android:id="@+id/image_5sensor_g_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_5_g_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_5sensor_y_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_5_y_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_5sensor_r_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_5_r_l"
+                android:visibility="invisible" />
+
+
+            //sixth sensor
+
+            <ImageView
+                android:id="@+id/image_6sensor_g_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_6_g_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_6sensor_y_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_6_y_l"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/image_6sensor_r_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/sens_6_r_l"
+                android:visibility="invisible" />
+
+
+            //верхний слой
+
+            <ImageView
+                android:id="@+id/image_first_l_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:orientation="vertical"
+                android:src="@drawable/main_l"
+                android:rotationY="180"
+                android:visibility="visible" />
+
+            // image cop
+
+            <LinearLayout
+                android:id="@+id/leftgroup_right"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/layoutText1and2_right"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textsensor2_right"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:text="00001"
+                        android:textColor="#000"
+                        android:textSize="30sp"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/textsensor1_right"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:text="00002"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="30sp"
+                        android:visibility="invisible" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutText3and4_right"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textsensor4_right"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:text="00003"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="30sp"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/invisiblebutton2_right"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/textsensor3_right"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:text="00004"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="30sp"
+                        android:visibility="invisible" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutText5and6_right"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textsensor6_right"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:text="00005"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="30sp"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/invisiblebutton3_right"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/textsensor5_right"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:text="00006"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="30sp"
+                        android:visibility="invisible" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/sciChart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_layout"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/testbutton"
+        android:layout_width="80px"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:text="testbutton"
+        android:textAlignment="center"
+        android:visibility="invisible" />
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/layoutSensor123"-->
+    <!--        android:layout_width="fill_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:gravity="center"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/LRButtonLayout"-->
+    <!--        tools:ignore="MissingConstraints">-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/textsensor1"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textSize="20sp"-->
+    <!--            android:textColor="#000"-->
+    <!--            android:visibility="invisible"-->
+    <!--            android:text="no device"/>-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/textsensor2"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textSize="20sp"-->
+    <!--            android:textColor="#000"-->
+    <!--            android:visibility="invisible"-->
+    <!--            android:text="no device"/>-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/textsensor3"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textSize="20sp"-->
+    <!--            android:textColor="#000"-->
+    <!--            android:visibility="invisible"-->
+    <!--            android:text="no device"/>-->
+
+    <!--    </LinearLayout>-->
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/layoutSensor456"-->
+    <!--        android:layout_width="fill_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:gravity="center"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/LRButtonLayout"-->
+    <!--        tools:ignore="MissingConstraints">-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/textsensor4"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textSize="20sp"-->
+    <!--            android:textColor="#000"-->
+    <!--            android:visibility="invisible"-->
+    <!--            android:text="no device"/>-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/textsensor5"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textSize="20sp"-->
+    <!--            android:textColor="#000"-->
+    <!--            android:visibility="invisible"-->
+    <!--            android:text="no device"/>-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/textsensor6"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textSize="20sp"-->
+    <!--            android:textColor="#000"-->
+    <!--            android:visibility="invisible"-->
+    <!--            android:text="no device"/>-->
+
+    <!--    </LinearLayout>-->
+
+</TableLayout>
