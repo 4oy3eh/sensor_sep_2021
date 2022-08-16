@@ -1,2 +1,2 @@
-rootProject.name = "SmartSocksSensor"
+rootProject.name = "Sensor"
 include ':app'

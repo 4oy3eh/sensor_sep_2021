@@ -1,3 +1,38 @@
 <resources>
-    <string name="app_name">SmartSocksSensor</string>
+    <string name="app_name">Sensor</string>
+
+    // ?? not needed
+    <string name="btn_left">left</string>
+    <string name="btn_right">right</string>
+    <string name="btn_bt_on">bt on</string>
+    <string name="btn_bt_off">bt off</string>
+    <string name="txt_title_paired_devices">Paired Devices</string>
+    <string name="btn_paired">paired</string>
+    <string name="txt_left">Left device</string>
+    <string name="txt_right">Right device</string>
+    <string name="txt_no_device">no device selected</string>
+    <string name="txt_configuration">Configuration</string>
+    <string name="btn_left_on">left on</string>
+    <string name="btn_left_off">left off</string>
+    <string name="btn_right_on">right on</string>
+    <string name="btn_right_off">right off</string>
+    <string name="txt_box_left">Left:</string>
+    <string name="txt_box_right">Right:</string>
+    <string name="btn_get_config">get config</string>
+    <string name="btn_set_config">set config</string>
+    <string name="btn_graph">graph</string>
+    <string name="btn_save">save</string>
+    <string name="btn_left_foot">left foot</string>
+    <string name="btn_right_foot">right foot</string>
+    <string name="btn_back">back</string>
+    <string name="btn_on">on</string>
+    <string name="btn_off">off</string>
+    <string name="btn_show_left">left</string>
+    <string name="btn_show_right">right</string>
+    <string name="btn_connect">connect</string>
+    <string name="btn_refresh">refresh</string>
+    <string name="btn_delete">delete</string>
+    <string name="btn_reconnect">reconnect</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
 </resources>
