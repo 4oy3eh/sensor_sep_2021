@@ -118,7 +118,8 @@ public class ConnectedThread extends Thread {
                         }
                     }
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
+                //IOException
                 startWorker = false;
                 break;
             }
@@ -141,6 +142,20 @@ public class ConnectedThread extends Thread {
     public void setThreadSensor(int sensorNumber, double sensorValue){
         headSensor.setSensor(sensorNumber,sensorValue);
     }
+
+    public double[] getSensorArray(){
+        return new double[]{headSensor.getSensorValue(1),headSensor.getSensorValue(2),
+                headSensor.getSensorValue(3),headSensor.getSensorValue(4),headSensor.getSensorValue(5),
+                headSensor.getSensorValue(6)};
+    }
+
+    public double[] getCalibArray(){
+        return new double[]{headSensor.getCalibrationSensorValue(1),headSensor.getCalibrationSensorValue(2),
+                headSensor.getCalibrationSensorValue(3),headSensor.getCalibrationSensorValue(4),headSensor.getCalibrationSensorValue(5),
+                headSensor.getCalibrationSensorValue(6)};
+    }
+
+
 
     public void setCopProcessingTrue(){
         CopProcessing = true;

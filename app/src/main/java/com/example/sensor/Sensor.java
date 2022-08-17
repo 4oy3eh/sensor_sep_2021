@@ -56,7 +56,7 @@ public class Sensor {
     }
 
 //getters setters
-    public double getSensor(int sensorNumber) {
+    public double getSensorValue(int sensorNumber) {
         double result;
         switch(sensorNumber){
             case 1:
@@ -76,6 +76,37 @@ public class Sensor {
                 break;
             case 6:
                 result = sensor6;
+                break;
+            default:
+                result = 0;
+                //TODO
+                //some error
+                System.out.print("Error: choose sensor 1-6 only");
+                break;
+        }
+        return result;
+    }
+
+ public double getCalibrationSensorValue(int sensorNumber) {
+        double result;
+        switch(sensorNumber){
+            case 1:
+                result = calibrationSensor1;
+                break;
+            case 2:
+                result = calibrationSensor2;
+                break;
+            case 3:
+                result = calibrationSensor3;
+                break;
+            case 4:
+                result = calibrationSensor4;
+                break;
+            case 5:
+                result = calibrationSensor5;
+                break;
+            case 6:
+                result = calibrationSensor6;
                 break;
             default:
                 result = 0;
@@ -117,7 +148,7 @@ public class Sensor {
         }
     }
 
-    public void doCalibration(){//lift foot and save values for real minimum of pressure done by
+    private void doCalibration(){//lift foot and save values for real minimum of pressure done by
         // your foot to process it further
         this.calibrationSensor1 = sensor1;
         this.calibrationSensor2 = sensor2;
@@ -128,7 +159,7 @@ public class Sensor {
     }
     // getting the real pressure applied by reducing actual value from calibrated zero pressure
     // value
-    public void doSignalNormalization(){//must be more than 0
+    private void doSignalNormalization(){//must be more than 0
         //actually if less than zero calibration was done bad or sensor showing inaccurate data
         this.normalizedSensor1 = Math.max(0,calibrationSensor1 - sensor1);
         this.normalizedSensor2 = Math.max(0,calibrationSensor2 - sensor2);
@@ -138,11 +169,11 @@ public class Sensor {
         this.normalizedSensor6 = Math.max(0,calibrationSensor6 - sensor6);
     }
 
-    public double normalizationSum(){
+    private double normalizationSum(){
         return normalizedSensor1 + normalizedSensor2 + normalizedSensor3 + normalizedSensor4 + normalizedSensor5 + normalizedSensor6;
     }
 
-    public double calibrationSum(){
+    private double calibrationSum(){
         return calibrationSensor1 + calibrationSensor2 + calibrationSensor3 + calibrationSensor4 + calibrationSensor5 + calibrationSensor6;
     }
 

@@ -73,6 +73,7 @@ public class Visual extends AppCompatActivity {
     double resistanceMultiplier, maxValue, sensor1, sensor2, sensor3, sensor4, sensor5, sensor6, cop_sensor1,
             cop_sensor2, cop_sensor3, cop_sensor4, cop_sensor5, cop_sensor6, calib_sensor1,
             calib_sensor2, calib_sensor3, calib_sensor4, calib_sensor5, calib_sensor6;
+    double tmpArray[], tmpArrayTwo[];
     float xValue, yValue, xMiddle, yMiddle, xValuePixel, yValuePixel, xValueOld, yValueOld;
     ArrayList<Float> List_xValue = new ArrayList<Float>();
     ArrayList<Float> List_yValue = new ArrayList<Float>();
@@ -498,31 +499,41 @@ public class Visual extends AppCompatActivity {
                                     RedYellowGreenStripes(imageSensor6G, imageSensor6Y, imageSensor6R, maxValue, sensor6);
 
                                 } else if (checkDataOn) {
+                                    thread.resumeBufferReading();//??? helps or not
                                     //if - a lot then recalibrate
                                     if(isLeft){
-                                        textSensor1.setText(String.valueOf((int) (100 - (sensor1 * 100 / calib_sensor1))) + " %");
-                                        textSensor2.setText(String.valueOf((int) (100 - (sensor2 * 100 / calib_sensor2))) + " %");
-                                        textSensor3.setText(String.valueOf((int) (100 - (sensor3 * 100 / calib_sensor3))) + " %");
-                                        textSensor4.setText(String.valueOf((int) (100 - (sensor4 * 100 / calib_sensor4))) + " %");
-                                        textSensor5.setText(String.valueOf((int) (100 - (sensor5 * 100 / calib_sensor5))) + " %");
-                                        textSensor6.setText(String.valueOf((int) (100 - (sensor6 * 100 / calib_sensor6))) + " %");
+
+                                            tmpArray = thread.getSensorArray();
+                                            tmpArrayTwo = thread.getCalibArray();
+                                        textSensor1.setText(String.valueOf((int) (100 - (tmpArray[0] * 100 / tmpArrayTwo[0]))) + " %");
+                                        textSensor2.setText(String.valueOf((int) (100 - (tmpArray[1] * 100 / tmpArrayTwo[1]))) + " %");
+                                        textSensor3.setText(String.valueOf((int) (100 - (tmpArray[2] * 100 / tmpArrayTwo[2]))) + " %");
+                                        textSensor4.setText(String.valueOf((int) (100 - (tmpArray[3] * 100 / tmpArrayTwo[3]))) + " %");
+                                        textSensor5.setText(String.valueOf((int) (100 - (tmpArray[4] * 100 / tmpArrayTwo[4]))) + " %");
+                                        textSensor6.setText(String.valueOf((int) (100 - (tmpArray[5] * 100 / tmpArrayTwo[5]))) + " %");
 
                                     }else if(!isLeft){
-                                        textSensor1.setText(String.valueOf((int) (100 - (sensor1 * 100 / calib_sensor1))) + " %");
-                                        textSensor2.setText(String.valueOf((int) (100 - (sensor2 * 100 / calib_sensor2))) + " %");
-                                        textSensor3.setText(String.valueOf((int) (100 - (sensor3 * 100 / calib_sensor3))) + " %");
-                                        textSensor4.setText(String.valueOf((int) (100 - (sensor4 * 100 / calib_sensor4))) + " %");
-                                        textSensor5.setText(String.valueOf((int) (100 - (sensor5 * 100 / calib_sensor5))) + " %");
-                                        textSensor6.setText(String.valueOf((int) (100 - (sensor6 * 100 / calib_sensor6))) + " %");
+                                        textSensor1.setText(String.valueOf((int) (100 - (tmpArray[0] * 100 / tmpArrayTwo[0]))) + " %");
+                                        textSensor2.setText(String.valueOf((int) (100 - (tmpArray[1] * 100 / tmpArrayTwo[1]))) + " %");
+                                        textSensor3.setText(String.valueOf((int) (100 - (tmpArray[2] * 100 / tmpArrayTwo[2]))) + " %");
+                                        textSensor4.setText(String.valueOf((int) (100 - (tmpArray[3] * 100 / tmpArrayTwo[3]))) + " %");
+                                        textSensor5.setText(String.valueOf((int) (100 - (tmpArray[4] * 100 / tmpArrayTwo[4]))) + " %");
+                                        textSensor6.setText(String.valueOf((int) (100 - (tmpArray[5] * 100 / tmpArrayTwo[5]))) + " %");
                                     } else{
 
                                     }
-                                    RedYellowGreenStripes(imageSensor1G, imageSensor1Y, imageSensor1R,calib_sensor1,cop_sensor1);
-                                    RedYellowGreenStripes(imageSensor2G, imageSensor2Y, imageSensor2R,calib_sensor2,cop_sensor2);
-                                    RedYellowGreenStripes(imageSensor3G, imageSensor3Y, imageSensor3R,calib_sensor3,cop_sensor3);
-                                    RedYellowGreenStripes(imageSensor4G, imageSensor4Y, imageSensor4R,calib_sensor4,cop_sensor4);
-                                    RedYellowGreenStripes(imageSensor5G, imageSensor5Y, imageSensor5R,calib_sensor5,cop_sensor5);
-                                    RedYellowGreenStripes(imageSensor6G, imageSensor6Y, imageSensor6R,calib_sensor6,cop_sensor6);
+                                    RedYellowGreenStripes(imageSensor1G, imageSensor1Y,
+                                            imageSensor1R, calib_sensor1, cop_sensor1);
+                                    RedYellowGreenStripes(imageSensor2G, imageSensor2Y,
+                                            imageSensor2R, calib_sensor2, cop_sensor2);
+                                    RedYellowGreenStripes(imageSensor3G, imageSensor3Y,
+                                            imageSensor3R, calib_sensor3, cop_sensor3);
+                                    RedYellowGreenStripes(imageSensor4G, imageSensor4Y,
+                                            imageSensor4R, calib_sensor4, cop_sensor4);
+                                    RedYellowGreenStripes(imageSensor5G, imageSensor5Y,
+                                            imageSensor5R, calib_sensor5, cop_sensor5);
+                                    RedYellowGreenStripes(imageSensor6G, imageSensor6Y,
+                                            imageSensor6R, calib_sensor6, cop_sensor6);
 
                                 } else {
 
