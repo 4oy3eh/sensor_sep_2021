@@ -14,6 +14,7 @@ public class ConnectedThread extends Thread {
     private final double mmResistanceMultiplier;
     private Sensor headSensor;
     private PrintWriter mmDataWriter;
+<<<<<<< HEAD
     private boolean CopProcessing = false;
     private boolean startWorker;
     private final byte stopByte;
@@ -22,6 +23,12 @@ public class ConnectedThread extends Thread {
     public ConnectedThread(BluetoothSocket socket, double resistanceMultiplier, PrintWriter dataWriter) {
         stopByte = (byte) 0x55;
         startByte = (byte) 0xF0;
+=======
+    private boolean CopProcessing;
+    private boolean startWorker;
+
+    public ConnectedThread(BluetoothSocket socket, double resistanceMultiplier, PrintWriter dataWriter) {
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
         mmResistanceMultiplier = resistanceMultiplier;
         InputStream tmpIn = null;
         OutputStream tmpOut = null;
@@ -33,9 +40,13 @@ public class ConnectedThread extends Thread {
         try {
             tmpIn = socket.getInputStream();
             tmpOut = socket.getOutputStream();
+<<<<<<< HEAD
         } catch (Exception e) {
             //IOException should be most common
             //NullPointer exception possible
+=======
+        } catch (IOException e) {
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
             System.out.println("Error " + e);
         }
         INPUTSTREAM = tmpIn;
@@ -50,7 +61,12 @@ public class ConnectedThread extends Thread {
     public void run() {
 
         int bytesAvailable; // bytes available in the buffer
+<<<<<<< HEAD
 
+=======
+        byte stopByte = (byte) 0x55;
+        byte startByte = (byte) 0xF0;
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
         int pos = 0, tmp;
         byte[] buf = new byte[1024]; // actually not needed more than 47
 
@@ -118,8 +134,12 @@ public class ConnectedThread extends Thread {
                         }
                     }
                 }
+<<<<<<< HEAD
             } catch (Exception e) {
                 //IOException
+=======
+            } catch (IOException e) {
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
                 startWorker = false;
                 break;
             }
@@ -143,6 +163,7 @@ public class ConnectedThread extends Thread {
         headSensor.setSensor(sensorNumber,sensorValue);
     }
 
+<<<<<<< HEAD
     public double[] getSensorArray(){
         return new double[]{headSensor.getSensorValue(1),headSensor.getSensorValue(2),
                 headSensor.getSensorValue(3),headSensor.getSensorValue(4),headSensor.getSensorValue(5),
@@ -157,6 +178,8 @@ public class ConnectedThread extends Thread {
 
 
 
+=======
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
     public void setCopProcessingTrue(){
         CopProcessing = true;
     }

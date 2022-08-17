@@ -73,7 +73,10 @@ public class Visual extends AppCompatActivity {
     double resistanceMultiplier, maxValue, sensor1, sensor2, sensor3, sensor4, sensor5, sensor6, cop_sensor1,
             cop_sensor2, cop_sensor3, cop_sensor4, cop_sensor5, cop_sensor6, calib_sensor1,
             calib_sensor2, calib_sensor3, calib_sensor4, calib_sensor5, calib_sensor6;
+<<<<<<< HEAD
     double tmpArray[], tmpArrayTwo[];
+=======
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
     float xValue, yValue, xMiddle, yMiddle, xValuePixel, yValuePixel, xValueOld, yValueOld;
     ArrayList<Float> List_xValue = new ArrayList<Float>();
     ArrayList<Float> List_yValue = new ArrayList<Float>();
@@ -216,6 +219,7 @@ public class Visual extends AppCompatActivity {
         }
         //TODO
         //else exit->error
+<<<<<<< HEAD
         //set settings
         samplingRate = setSpeedHz[Integer.parseInt(bts1)];
         measurementRange = setResistanceKHom[Integer.parseInt(bts2)];
@@ -228,6 +232,8 @@ public class Visual extends AppCompatActivity {
         }
 
 /*
+=======
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
         try {
             // create the device and sock for the Right device connection
             device = mBlueAdapter.getRemoteDevice(mac); // use the saved mac address
@@ -240,8 +246,22 @@ public class Visual extends AppCompatActivity {
             //make all toast string l/r into setup value
             Toast.makeText(getApplicationContext(), mac + " Connection to the " + setup +" sock has failed", Toast.LENGTH_LONG).show();
         }
+<<<<<<< HEAD
 */
 
+=======
+
+        //set settings
+        samplingRate = setSpeedHz[Integer.parseInt(bts1)];
+        measurementRange = setResistanceKHom[Integer.parseInt(bts2)];
+        resistanceMultiplier = resistanceMultiplierArray[Integer.parseInt(bts2)];
+        maxValue = maxValueArray[Integer.parseInt(bts2)];
+
+        if (Integer.parseInt(bts1) == 0) refreshSpeed = 1000 / 10;
+        else {
+            refreshSpeed = 1000 / (25 * Integer.parseInt(bts1));//milliseconds
+        }
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
 
 
         btnReconnect.setOnClickListener(v -> {
@@ -432,8 +452,16 @@ public class Visual extends AppCompatActivity {
             CopCheckVisibility(View.VISIBLE);
         });
 
+<<<<<<< HEAD
 
 
+=======
+        btnTest.setOnClickListener(v -> {
+
+
+        });
+
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
 
         forRefresh = new Thread() {
             @Override
@@ -499,6 +527,7 @@ public class Visual extends AppCompatActivity {
                                     RedYellowGreenStripes(imageSensor6G, imageSensor6Y, imageSensor6R, maxValue, sensor6);
 
                                 } else if (checkDataOn) {
+<<<<<<< HEAD
                                     thread.resumeBufferReading();//??? helps or not
                                     //if - a lot then recalibrate
                                     if(isLeft){
@@ -534,6 +563,33 @@ public class Visual extends AppCompatActivity {
                                             imageSensor5R, calib_sensor5, cop_sensor5);
                                     RedYellowGreenStripes(imageSensor6G, imageSensor6Y,
                                             imageSensor6R, calib_sensor6, cop_sensor6);
+=======
+                                    //if - a lot then recalibrate
+                                    if(isLeft){
+                                        textSensor1.setText(String.valueOf((int) (100 - (sensor1 * 100 / calib_sensor1))) + " %");
+                                        textSensor2.setText(String.valueOf((int) (100 - (sensor2 * 100 / calib_sensor2))) + " %");
+                                        textSensor3.setText(String.valueOf((int) (100 - (sensor3 * 100 / calib_sensor3))) + " %");
+                                        textSensor4.setText(String.valueOf((int) (100 - (sensor4 * 100 / calib_sensor4))) + " %");
+                                        textSensor5.setText(String.valueOf((int) (100 - (sensor5 * 100 / calib_sensor5))) + " %");
+                                        textSensor6.setText(String.valueOf((int) (100 - (sensor6 * 100 / calib_sensor6))) + " %");
+
+                                    }else if(!isLeft){
+                                        textSensor1.setText(String.valueOf((int) (100 - (sensor1 * 100 / calib_sensor1))) + " %");
+                                        textSensor2.setText(String.valueOf((int) (100 - (sensor2 * 100 / calib_sensor2))) + " %");
+                                        textSensor3.setText(String.valueOf((int) (100 - (sensor3 * 100 / calib_sensor3))) + " %");
+                                        textSensor4.setText(String.valueOf((int) (100 - (sensor4 * 100 / calib_sensor4))) + " %");
+                                        textSensor5.setText(String.valueOf((int) (100 - (sensor5 * 100 / calib_sensor5))) + " %");
+                                        textSensor6.setText(String.valueOf((int) (100 - (sensor6 * 100 / calib_sensor6))) + " %");
+                                    } else{
+
+                                    }
+                                    RedYellowGreenStripes(imageSensor1G, imageSensor1Y, imageSensor1R,calib_sensor1,cop_sensor1);
+                                    RedYellowGreenStripes(imageSensor2G, imageSensor2Y, imageSensor2R,calib_sensor2,cop_sensor2);
+                                    RedYellowGreenStripes(imageSensor3G, imageSensor3Y, imageSensor3R,calib_sensor3,cop_sensor3);
+                                    RedYellowGreenStripes(imageSensor4G, imageSensor4Y, imageSensor4R,calib_sensor4,cop_sensor4);
+                                    RedYellowGreenStripes(imageSensor5G, imageSensor5Y, imageSensor5R,calib_sensor5,cop_sensor5);
+                                    RedYellowGreenStripes(imageSensor6G, imageSensor6Y, imageSensor6R,calib_sensor6,cop_sensor6);
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
 
                                 } else {
 

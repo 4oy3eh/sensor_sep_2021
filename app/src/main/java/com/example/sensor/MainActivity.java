@@ -56,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
         btnLastSetup = findViewById(R.id.btnLastSetup);
         btnLastSetup.setVisibility(View.GONE); //ubratj dlja apk
         btnTest = findViewById(R.id.btn_test);
+<<<<<<< HEAD
+=======
+        btnTest.setVisibility(View.GONE); //ubratj dlja apk
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
 
         //list
         listPairedDevices = findViewById(R.id.pairedDevices);
@@ -222,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
         btnContinueNextActivity.setOnClickListener(v -> {
             startActivity(macIntent);
         });
+<<<<<<< HEAD
 
         btnTest.setOnClickListener(v -> {
             //actually random values
@@ -233,6 +238,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(settingsIntent);
         });
 
+=======
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
         //TODO
         //make config for last setup and load it in this button
         btnLastSetup.setOnClickListener(v -> {

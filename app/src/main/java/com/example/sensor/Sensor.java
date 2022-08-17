@@ -56,7 +56,11 @@ public class Sensor {
     }
 
 //getters setters
+<<<<<<< HEAD
     public double getSensorValue(int sensorNumber) {
+=======
+    public double getSensor(int sensorNumber) {
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
         double result;
         switch(sensorNumber){
             case 1:
@@ -87,6 +91,7 @@ public class Sensor {
         return result;
     }
 
+<<<<<<< HEAD
  public double getCalibrationSensorValue(int sensorNumber) {
         double result;
         switch(sensorNumber){
@@ -118,6 +123,8 @@ public class Sensor {
         return result;
     }
 
+=======
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
 
 
     public void setSensor(int sensorNumber, double sensorValue) {
@@ -148,7 +155,11 @@ public class Sensor {
         }
     }
 
+<<<<<<< HEAD
     private void doCalibration(){//lift foot and save values for real minimum of pressure done by
+=======
+    public void doCalibration(){//lift foot and save values for real minimum of pressure done by
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
         // your foot to process it further
         this.calibrationSensor1 = sensor1;
         this.calibrationSensor2 = sensor2;
@@ -159,7 +170,11 @@ public class Sensor {
     }
     // getting the real pressure applied by reducing actual value from calibrated zero pressure
     // value
+<<<<<<< HEAD
     private void doSignalNormalization(){//must be more than 0
+=======
+    public void doSignalNormalization(){//must be more than 0
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
         //actually if less than zero calibration was done bad or sensor showing inaccurate data
         this.normalizedSensor1 = Math.max(0,calibrationSensor1 - sensor1);
         this.normalizedSensor2 = Math.max(0,calibrationSensor2 - sensor2);
@@ -169,11 +184,19 @@ public class Sensor {
         this.normalizedSensor6 = Math.max(0,calibrationSensor6 - sensor6);
     }
 
+<<<<<<< HEAD
     private double normalizationSum(){
         return normalizedSensor1 + normalizedSensor2 + normalizedSensor3 + normalizedSensor4 + normalizedSensor5 + normalizedSensor6;
     }
 
     private double calibrationSum(){
+=======
+    public double normalizationSum(){
+        return normalizedSensor1 + normalizedSensor2 + normalizedSensor3 + normalizedSensor4 + normalizedSensor5 + normalizedSensor6;
+    }
+
+    public double calibrationSum(){
+>>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
         return calibrationSensor1 + calibrationSensor2 + calibrationSensor3 + calibrationSensor4 + calibrationSensor5 + calibrationSensor6;
     }
 
