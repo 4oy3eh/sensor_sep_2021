@@ -1,203 +1,148 @@
 package com.example.sensor;
 
+import android.os.Build;
+
+import java.util.Arrays;
+
 public class Sensor {
-    private double sensor1;
-    private double sensor2;
-    private double sensor3;
-    private double sensor4;
-    private double sensor5;
-    private double sensor6;
-    private double calibrationSensor1;
-    private double calibrationSensor2;
-    private double calibrationSensor3;
-    private double calibrationSensor4;
-    private double calibrationSensor5;
-    private double calibrationSensor6;
-    private double normalizedSensor1;
-    private double normalizedSensor2;
-    private double normalizedSensor3;
-    private double normalizedSensor4;
-    private double normalizedSensor5;
-    private double normalizedSensor6;
-    private final int alphaDegree = 75;
+    private final String sensorName;
+    private double[] sensorValue;
+    private double[] calibrationSensorValue;
+    private double[] normalizedSensorValue;
+    private final int ALPHA_DEGREE = 75;
+    private final int MAX_SENSOR_COUNT = 8;
 
-
+    public Sensor(String name){
+        this.sensorName = name;
+        this.sensorValue = new double[MAX_SENSOR_COUNT];
+        this.calibrationSensorValue = new double[MAX_SENSOR_COUNT];
+        this.normalizedSensorValue = new double[MAX_SENSOR_COUNT];
+    }
 
 //for writing data
     public String toTxtData(long timeOfStart) {
         int time = (int) (System.currentTimeMillis() - timeOfStart);
-        return time + "\t" +sensor1 + "\t" + sensor2 + "\t" + sensor3 + "\t" + sensor4 + "\t" +
-        sensor4 + "\t" + sensor5 + "\t" + sensor6 ;
+        String ans = String.valueOf(time);
+        for (int i = 0; i < MAX_SENSOR_COUNT; i++)
+            ans += "\t" + sensorValue[i];
+        return  ans;
     }
 
 
     //for cop writing data
     public String toTxtCalibrationData(long timeOfStart) {
         int time = (int) (System.currentTimeMillis() - timeOfStart);
-
-        return time + "\t###CALIBRATION##DONE#" + "\n" + time + "\t" +sensor1 + "\t" + sensor2 +
-        "\t" + sensor3 + "\t" + sensor4 + "\t" + sensor4 + "\t" + sensor5 + "\t" + sensor6 + "\n"
-        + time + "\t###VALUES##NEXT#";
+        String ans = time + "\t###CALIBRATION##DONE#" + "\n" + time;
+        for (int i = 0; i < MAX_SENSOR_COUNT; i++)
+            ans += "\t" + sensorValue[i];
+        ans += "\n" + time + "\t###VALUES##NEXT#";
+        return  ans;
     }
 
     public String toString() {
-        return "sensor 1 = " + sensor1 + "; sensor 2 = " + sensor2 + "; sensor 3 = " + sensor3 +
-        "; sensor 4 = " + sensor4  + "; sensor 5 = " + sensor5  + "; sensor 6 = " + sensor6;
+        String ans = "";
+        for (int i = 0; i < MAX_SENSOR_COUNT; i++)
+            ans += sensorValue[i] + " ";
+        return ans;
     }
 
-    public Sensor(double sensor1, double sensor2, double sensor3, double sensor4,
-                       double sensor5, double sensor6){
-        this.sensor1 = sensor1;
-        this.sensor2 = sensor2;
-        this.sensor3 = sensor3;
-        this.sensor4 = sensor4;
-        this.sensor5 = sensor5;
-        this.sensor6 = sensor6;
+    public String makeBreak(){
+        return "---";
     }
+
+
 
 //getters setters
-<<<<<<< HEAD
-    public double getSensorValue(int sensorNumber) {
-=======
-    public double getSensor(int sensorNumber) {
->>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
-        double result;
-        switch(sensorNumber){
-            case 1:
-                result = sensor1;
-                break;
-            case 2:
-                result = sensor2;
-                break;
-            case 3:
-                result = sensor3;
-                break;
-            case 4:
-                result = sensor4;
-                break;
-            case 5:
-                result = sensor5;
-                break;
-            case 6:
-                result = sensor6;
-                break;
-            default:
-                result = 0;
-                //TODO
-                //some error
-                System.out.print("Error: choose sensor 1-6 only");
-                break;
-        }
-        return result;
+
+    public double[] getSensorValueArray() {
+        return sensorValue;
     }
 
-<<<<<<< HEAD
- public double getCalibrationSensorValue(int sensorNumber) {
-        double result;
-        switch(sensorNumber){
-            case 1:
-                result = calibrationSensor1;
-                break;
-            case 2:
-                result = calibrationSensor2;
-                break;
-            case 3:
-                result = calibrationSensor3;
-                break;
-            case 4:
-                result = calibrationSensor4;
-                break;
-            case 5:
-                result = calibrationSensor5;
-                break;
-            case 6:
-                result = calibrationSensor6;
-                break;
-            default:
-                result = 0;
-                //TODO
-                //some error
-                System.out.print("Error: choose sensor 1-6 only");
-                break;
-        }
-        return result;
+    public double[] getCalibrationSensorValueArray() {
+        return calibrationSensorValue;
     }
 
-=======
->>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
+    public double[] getNormalizedSensorValueArray() {
+        return normalizedSensorValue;
+    }
 
+    // calibration value setter
+    public void doCalibration(){
+        //lift foot and save values for real minimum of pressure done by
+        // your foot to process it further
+        for (int i = 0; i < MAX_SENSOR_COUNT; i++)
+            calibrationSensorValue[i] = sensorValue[i];
+    }
 
     public void setSensor(int sensorNumber, double sensorValue) {
+        if (sensorNumber > MAX_SENSOR_COUNT){
+            System.out.print("Error: choose sensor 1-8 only");
+            return;
+        }
+
         switch(sensorNumber){
             case 1:
-                this.sensor1 = sensorValue;
+                this.sensorValue[0] = sensorValue;
                 break;
             case 2:
-                this.sensor2 = sensorValue;
+                this.sensorValue[1] = sensorValue;
                 break;
             case 3:
-                this.sensor3 = sensorValue;
+                this.sensorValue[2] = sensorValue;
                 break;
             case 4:
-                this.sensor4 = sensorValue;
+                this.sensorValue[3] = sensorValue;
                 break;
             case 5:
-                this.sensor5 = sensorValue;
+                this.sensorValue[4] = sensorValue;
                 break;
             case 6:
-                this.sensor6 = sensorValue;
+                this.sensorValue[5] = sensorValue;
+                break;
+            case 7:
+                this.sensorValue[6] = sensorValue;
+                break;
+            case 8:
+                this.sensorValue[7] = sensorValue;
                 break;
             default:
                 //TODO
                 //some error
-                System.out.print("Error: choose sensor 1-6 only");
+                System.out.print("Error: choose sensor 1-8 only");
                 break;
         }
     }
 
-<<<<<<< HEAD
-    private void doCalibration(){//lift foot and save values for real minimum of pressure done by
-=======
-    public void doCalibration(){//lift foot and save values for real minimum of pressure done by
->>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
-        // your foot to process it further
-        this.calibrationSensor1 = sensor1;
-        this.calibrationSensor2 = sensor2;
-        this.calibrationSensor3 = sensor3;
-        this.calibrationSensor4 = sensor4;
-        this.calibrationSensor5 = sensor5;
-        this.calibrationSensor6 = sensor6;
-    }
+    // normalization value setter
     // getting the real pressure applied by reducing actual value from calibrated zero pressure
     // value
-<<<<<<< HEAD
-    private void doSignalNormalization(){//must be more than 0
-=======
     public void doSignalNormalization(){//must be more than 0
->>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
         //actually if less than zero calibration was done bad or sensor showing inaccurate data
-        this.normalizedSensor1 = Math.max(0,calibrationSensor1 - sensor1);
-        this.normalizedSensor2 = Math.max(0,calibrationSensor2 - sensor2);
-        this.normalizedSensor3 = Math.max(0,calibrationSensor3 - sensor3);
-        this.normalizedSensor4 = Math.max(0,calibrationSensor4 - sensor4);
-        this.normalizedSensor5 = Math.max(0,calibrationSensor5 - sensor5);
-        this.normalizedSensor6 = Math.max(0,calibrationSensor6 - sensor6);
+        for (int i = 0; i < MAX_SENSOR_COUNT; i++)
+            this.normalizedSensorValue[i] = Math.max(0,calibrationSensorValue[i] - sensorValue[i]);
     }
 
-<<<<<<< HEAD
+
     private double normalizationSum(){
-        return normalizedSensor1 + normalizedSensor2 + normalizedSensor3 + normalizedSensor4 + normalizedSensor5 + normalizedSensor6;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Arrays.stream(normalizedSensorValue).count();
+        } else {
+            double normalizedSum = 0;
+            for(int i = 0; i < MAX_SENSOR_COUNT; i++)
+                normalizedSum += normalizedSensorValue[i];
+            return normalizedSum;
+        }
     }
 
     private double calibrationSum(){
-=======
-    public double normalizationSum(){
-        return normalizedSensor1 + normalizedSensor2 + normalizedSensor3 + normalizedSensor4 + normalizedSensor5 + normalizedSensor6;
-    }
-
-    public double calibrationSum(){
->>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
-        return calibrationSensor1 + calibrationSensor2 + calibrationSensor3 + calibrationSensor4 + calibrationSensor5 + calibrationSensor6;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Arrays.stream(calibrationSensorValue).count();
+        } else {
+            double calibrationSum = 0;
+            for(int i = 0; i < MAX_SENSOR_COUNT; i++)
+                calibrationSum += calibrationSensorValue[i];
+            return calibrationSum;
+        }
     }
 
     //not used too much power needed
@@ -205,38 +150,57 @@ public class Sensor {
     //get x value for cop
     public float xValueMethod1(){//could be applied for y
         double normalizedSensorSum = normalizationSum();
-        return (float) ((
-                normalizedSensor1 / normalizedSensorSum * Math.cos(Math.toRadians(alphaDegree)) +
-                        normalizedSensor2 / normalizedSensorSum * Math.cos(Math.toRadians(180 - alphaDegree)) +
-                        Math.cos(Math.toRadians(alphaDegree)) * normalizedSensor3 / normalizedSensorSum * Math.cos(Math.toRadians(0)) +
-                        Math.cos(Math.toRadians(alphaDegree)) * normalizedSensor4 / normalizedSensorSum * Math.cos(Math.toRadians(180)) +
-                        normalizedSensor5 / normalizedSensorSum * Math.cos(Math.toRadians(360 - alphaDegree)) +
-                        normalizedSensor6 / normalizedSensorSum * Math.cos(Math.toRadians(180 + alphaDegree))));
+        return (float) (
+                normalizedSensorValue[0] / normalizedSensorSum * Math.cos(Math.toRadians(ALPHA_DEGREE)) +
+                        normalizedSensorValue[1] / normalizedSensorSum * Math.cos(Math.toRadians(180 - ALPHA_DEGREE)) +
+                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * normalizedSensorValue[2] / normalizedSensorSum * Math.cos(Math.toRadians(0)) +
+                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * normalizedSensorValue[3] / normalizedSensorSum * Math.cos(Math.toRadians(180)) +
+                        normalizedSensorValue[4] / normalizedSensorSum * Math.cos(Math.toRadians(360 - ALPHA_DEGREE)) +
+                        normalizedSensorValue[5] / normalizedSensorSum * Math.cos(Math.toRadians(180 + ALPHA_DEGREE)));
     }
 
     public float xValueMethod2(){
         return (float) ((
-                normalizedSensor1 / calibrationSensor1 * Math.cos(Math.toRadians(alphaDegree)) +
-                        normalizedSensor2 / calibrationSensor2 * Math.cos(Math.toRadians(180 - alphaDegree)) +
-                        Math.cos(Math.toRadians(alphaDegree)) * normalizedSensor3 / calibrationSensor3 * Math.cos(Math.toRadians(0)) +
-                        Math.cos(Math.toRadians(alphaDegree)) * normalizedSensor4 / calibrationSensor4 * Math.cos(Math.toRadians(180)) +
-                        normalizedSensor5 / calibrationSensor5 * Math.cos(Math.toRadians(360 - alphaDegree)) +
-                        normalizedSensor6 / calibrationSensor6 * Math.cos(Math.toRadians(180 + alphaDegree))));
+                normalizedSensorValue[0] / calibrationSensorValue[0] * Math.cos(Math.toRadians(ALPHA_DEGREE)) +
+                        normalizedSensorValue[1] / calibrationSensorValue[1] * Math.cos(Math.toRadians(180 - ALPHA_DEGREE)) +
+                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * normalizedSensorValue[2] / calibrationSensorValue[2] * Math.cos(Math.toRadians(0)) +
+                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * normalizedSensorValue[3] / calibrationSensorValue[3] * Math.cos(Math.toRadians(180)) +
+                        normalizedSensorValue[4] / calibrationSensorValue[4] * Math.cos(Math.toRadians(360 - ALPHA_DEGREE)) +
+                        normalizedSensorValue[5] / calibrationSensorValue[5] * Math.cos(Math.toRadians(180 + ALPHA_DEGREE)))/6);
     }
 
-
-    //not used too much power needed
-    //to count it every time of inforamtion updated
-    //get y value for cop
     public float yValueMethod1(){
         double normalizedSensorSum = normalizationSum();
         return (float) (
+                normalizedSensorValue[0] / normalizedSensorSum * Math.sin(Math.toRadians(ALPHA_DEGREE)) +
+                        normalizedSensorValue[1] / normalizedSensorSum * Math.sin(Math.toRadians(180 - ALPHA_DEGREE)) +
+                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * normalizedSensorValue[2] / normalizedSensorSum * Math.sin(Math.toRadians(0)) +
+                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * normalizedSensorValue[3] / normalizedSensorSum * Math.sin(Math.toRadians(180)) +
+                        normalizedSensorValue[4] / normalizedSensorSum * Math.sin(Math.toRadians(360 - ALPHA_DEGREE)) +
+                        normalizedSensorValue[5] / normalizedSensorSum * Math.sin(Math.toRadians(180 + ALPHA_DEGREE)));
+    }
 
-                sensor1 / normalizedSensorSum * Math.sin(Math.toRadians(alphaDegree)) +
-                        sensor2 / normalizedSensorSum * Math.sin(Math.toRadians(180 - alphaDegree)) +
-                        Math.cos(Math.toRadians(alphaDegree)) * sensor3 / normalizedSensorSum * Math.sin(Math.toRadians(0)) +
-                        Math.cos(Math.toRadians(alphaDegree)) * sensor4 / normalizedSensorSum * Math.sin(Math.toRadians(180)) +
-                        sensor5 / normalizedSensorSum * Math.sin(Math.toRadians(360 - alphaDegree)) +
-                        sensor6 / normalizedSensorSum * Math.sin(Math.toRadians(180 + alphaDegree)));
+    public float yValueMethod2(){
+
+        return (float) ((
+                normalizedSensorValue[0] / calibrationSensorValue[0] * Math.sin(Math.toRadians(ALPHA_DEGREE)) +
+                        sensorValue[1] / normalizedSensorValue[1] * Math.sin(Math.toRadians(180 - ALPHA_DEGREE)) +
+                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * normalizedSensorValue[2] / calibrationSensorValue[2] * Math.sin(Math.toRadians(0)) +
+                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * normalizedSensorValue[3] / calibrationSensorValue[3] * Math.sin(Math.toRadians(180)) +
+                        normalizedSensorValue[4] / calibrationSensorValue[4] * Math.sin(Math.toRadians(360 - ALPHA_DEGREE)) +
+                        normalizedSensorValue[5] / calibrationSensorValue[5] * Math.sin(Math.toRadians(180 + ALPHA_DEGREE)))/6);
+    }
+
+    //get y value for cop
+    public float yValueMethod3(){
+        double normalizedSensorSum = normalizationSum();
+        return (float) (
+
+                sensorValue[0] / normalizedSensorSum * Math.sin(Math.toRadians(ALPHA_DEGREE)) +
+                        sensorValue[1] / normalizedSensorSum * Math.sin(Math.toRadians(180 - ALPHA_DEGREE)) +
+                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * sensorValue[2] / normalizedSensorSum * Math.sin(Math.toRadians(0)) +
+                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * sensorValue[3] / normalizedSensorSum * Math.sin(Math.toRadians(180)) +
+                        sensorValue[4] / normalizedSensorSum * Math.sin(Math.toRadians(360 - ALPHA_DEGREE)) +
+                        sensorValue[5] / normalizedSensorSum * Math.sin(Math.toRadians(180 + ALPHA_DEGREE)));
     }
 }

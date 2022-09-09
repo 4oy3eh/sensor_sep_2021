@@ -6,33 +6,39 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 
+
 public class ConnectedThread extends Thread {
-    private final InputStream INPUTSTREAM;
-    private final OutputStream OUTPUTSTREAM;
-    private final double mmResistanceMultiplier;
-    private Sensor headSensor;
+    private   InputStream INPUTSTREAM;
+    private   OutputStream OUTPUTSTREAM;
+    private final double RESISTANCE_MULTIPLIER;
+    public Sensor sensor;
     private PrintWriter mmDataWriter;
-<<<<<<< HEAD
     private boolean CopProcessing = false;
-    private boolean startWorker;
     private final byte stopByte;
     private final byte startByte;
+    private boolean startWorker;
+    private final int LENGTH_DATA_PACKET;
+    private ArrayList<Float> listXValue;
+    private ArrayList<Float> listYValue;
+    private boolean calibrationDoneTrigger = false;
 
-    public ConnectedThread(BluetoothSocket socket, double resistanceMultiplier, PrintWriter dataWriter) {
+
+
+    public ConnectedThread(BluetoothSocket socket, double resistanceMultiplier,
+                           String sensorName) {
+        RESISTANCE_MULTIPLIER = resistanceMultiplier;
         stopByte = (byte) 0x55;
         startByte = (byte) 0xF0;
-=======
-    private boolean CopProcessing;
-    private boolean startWorker;
-
-    public ConnectedThread(BluetoothSocket socket, double resistanceMultiplier, PrintWriter dataWriter) {
->>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
-        mmResistanceMultiplier = resistanceMultiplier;
+        LENGTH_DATA_PACKET = 47;
+        listXValue = new ArrayList<>();
+        listYValue = new ArrayList<>();
         InputStream tmpIn = null;
         OutputStream tmpOut = null;
-        mmDataWriter = dataWriter;
+        sensor = new Sensor(sensorName);
+
         //Setting a angle
         //important angle for our future cop calculations
         // Get the input and output streams, using temp objects because
@@ -40,13 +46,9 @@ public class ConnectedThread extends Thread {
         try {
             tmpIn = socket.getInputStream();
             tmpOut = socket.getOutputStream();
-<<<<<<< HEAD
         } catch (Exception e) {
             //IOException should be most common
             //NullPointer exception possible
-=======
-        } catch (IOException e) {
->>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
             System.out.println("Error " + e);
         }
         INPUTSTREAM = tmpIn;
@@ -61,17 +63,11 @@ public class ConnectedThread extends Thread {
     public void run() {
 
         int bytesAvailable; // bytes available in the buffer
-<<<<<<< HEAD
-
-=======
-        byte stopByte = (byte) 0x55;
-        byte startByte = (byte) 0xF0;
->>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
         int pos = 0, tmp;
         byte[] buf = new byte[1024]; // actually not needed more than 47
 
         // Keep looping to listen for received messages
-        startWorker = true;
+        boolean startWorker = true;
         long timeOfStart = System.currentTimeMillis();
         //TODO
         //try with nanotime instead of ms because sometimes you get more than 1 data in 1 ms
@@ -91,40 +87,68 @@ public class ConnectedThread extends Thread {
                         // put the byte in the buffer
                         buf[pos] = b[i];
                         // check if the new byte was the end of a packet
-                        if (buf[pos] == stopByte && pos > 45) {
-                            if (buf[pos - 46] == startByte) {
+                        if (buf[pos] == stopByte && pos > LENGTH_DATA_PACKET - 2) {
+                            if (buf[pos - (LENGTH_DATA_PACKET - 1)] == startByte) {
+
+                                // Buffer position 30 - 31 sensor 1
+                                // Buffer position 32 - 33 sensor 2
+                                // Buffer position 34 - 35 sensor 3
+                                // Buffer position 36 - 37 sensor 4
+                                // Buffer position 38 - 39 sensor 5
+                                // Buffer position 40 - 41 sensor 6
+                                // Buffer position 42 - 43 sensor 7
+                                // Buffer position 44 - 45 sensor 8
 
 
-                                // Buffer position 30 - 32 sensor 1
-                                // Buffer position 32 - 34 sensor 2
-                                // Buffer position 34 - 36 sensor 3
-                                // Buffer position 36 - 38 sensor 4
-                                // Buffer position 38 - 40 sensor 5
-                                // Buffer position 40 - 42 sensor 6
-                                for (int IndentValue=17, k=0;k<6;k++,
-                                        IndentValue-=2){//k<6 6 sensors;
-                                    // packege is being tracked by end bytes
-                                    // end byte - 17 till end bye - 15 is 1st sensor
+
+
+                                for (int IndentValue = 17, sensorCount = 0; sensorCount < 6; sensorCount++,
+                                        IndentValue-=2){
+                                    //sensorCount<6 6 sensors; if need 8 change to 8
+                                    // package is being tracked by end bytes
+                                    // end byte - 17 = 47 - 17 = 30
+                                    // until end bye - 15 - 47 - 15 = 32 is 1st sensor
                                     // next sensors following by using 2 bytes each
-                                    tmp = bti(Arrays.copyOfRange(buf, pos-IndentValue,
-                                            pos-IndentValue-2));
-                                    headSensor.setSensor(k+1,tmp * mmResistanceMultiplier);
+                                    tmp = bti(Arrays.copyOfRange(buf, pos - IndentValue,
+                                            pos - (IndentValue - 2)));
+                                    sensor.setSensor(sensorCount + 1,
+                                            tmp * RESISTANCE_MULTIPLIER);
+
                                 }
+
+                                if(answerToIfCalibrationIsDone()){
+                                    sensor.doSignalNormalization();
+                                }
+
+                                for(int sensorCount = 0; sensorCount < 6; sensorCount++){
+                                    try {
+//                                        Visual.RedYellowGreenStripesCalib(sensorCount);
+                                        Visual.setSensorTextValue(sensorCount);
+
+
+                                    }catch(Exception e){
+                                        e.printStackTrace();
+                                    }
+                                }
+
+
+
+
+
+
+
 
                                 //TODO
                                 //idk figure out something
 //                                if (CheckSavingOn) {
                                 if(false){
-                                    mmDataWriter.println(headSensor.toTxtData(timeOfStart));
+                                    mmDataWriter.println(sensor.toTxtData(timeOfStart));
                                 }
 
-
-                                if(CopProcessing){// trigger i/o for COP button enabled
-                                    //TODO check if callibration values are set
-
-                                    //Calibration
-                                    headSensor.xValueMethod2();
-                                    headSensor.yValueMethod1();
+                                // trigger i/o for COP button enabled
+                                if(CopProcessing){
+                                    listXValue.add(sensor.xValueMethod2());
+                                    listYValue.add(sensor.yValueMethod2());
                                 }
                                 pos = 0;
                             }
@@ -134,66 +158,53 @@ public class ConnectedThread extends Thread {
                         }
                     }
                 }
-<<<<<<< HEAD
-            } catch (Exception e) {
-                //IOException
-=======
             } catch (IOException e) {
->>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
+                //IOException
                 startWorker = false;
                 break;
             }
+
         }
     }
 
-    /* Call this from the main activity to send data to the remote device */
+
+    // Call this from the main activity to send data to the remote device
     public void write(String input) {
-        byte[] bytes = input.getBytes();           //converts entered String into bytes
+        //converts entered String into bytes
+        byte[] bytes = input.getBytes();
         try {
             OUTPUTSTREAM.write(bytes);
         } catch (IOException e) {
+            //
         }
     }
-
+    //byte to int
     private static int bti(byte[] b) {
+        // int b[1] + b[0]
         return ((b[1] & 0xFF) << 8) | (b[0] & 0xFF);
     }
 
-    public void setThreadSensor(int sensorNumber, double sensorValue){
-        headSensor.setSensor(sensorNumber,sensorValue);
+    public void doCalibration(){
+        calibrationDoneTrigger = true;
+        sensor.doCalibration();
     }
 
-<<<<<<< HEAD
-    public double[] getSensorArray(){
-        return new double[]{headSensor.getSensorValue(1),headSensor.getSensorValue(2),
-                headSensor.getSensorValue(3),headSensor.getSensorValue(4),headSensor.getSensorValue(5),
-                headSensor.getSensorValue(6)};
+    public boolean answerToIfCalibrationIsDone(){
+        return calibrationDoneTrigger;
     }
 
-    public double[] getCalibArray(){
-        return new double[]{headSensor.getCalibrationSensorValue(1),headSensor.getCalibrationSensorValue(2),
-                headSensor.getCalibrationSensorValue(3),headSensor.getCalibrationSensorValue(4),headSensor.getCalibrationSensorValue(5),
-                headSensor.getCalibrationSensorValue(6)};
+    public ArrayList<Float> getListXValue() {
+        return listXValue;
     }
 
-
-
-=======
->>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
-    public void setCopProcessingTrue(){
-        CopProcessing = true;
+    public ArrayList<Float> getListYValue() {
+        return listYValue;
     }
 
-    public void setCopProcessingFalse(){
-        CopProcessing = false;
+    public void clearListXAndYValue(){
+        listXValue.clear();
+        listYValue.clear();
     }
 
-    public void stopBufferReading(){
-        startWorker = false;
-    }
-
-    public void resumeBufferReading(){
-        startWorker = true;
-    }
 }
 
