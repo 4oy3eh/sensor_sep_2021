@@ -56,10 +56,7 @@ public class MainActivity extends AppCompatActivity {
         btnLastSetup = findViewById(R.id.btnLastSetup);
         btnLastSetup.setVisibility(View.GONE); //ubratj dlja apk
         btnTest = findViewById(R.id.btn_test);
-<<<<<<< HEAD
-=======
-        btnTest.setVisibility(View.GONE); //ubratj dlja apk
->>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
+//        btnTest.setVisibility(View.GONE); //ubratj dlja apk
 
         //list
         listPairedDevices = findViewById(R.id.pairedDevices);
@@ -226,20 +223,17 @@ public class MainActivity extends AppCompatActivity {
         btnContinueNextActivity.setOnClickListener(v -> {
             startActivity(macIntent);
         });
-<<<<<<< HEAD
 
         btnTest.setOnClickListener(v -> {
             //actually random values
             settingsIntent.putExtra("setup", "left");
             settingsIntent.putExtra("device_mac", "00:16:A4:48:8E:E6");
             settingsIntent.putExtra("device_name", "Block 3");
-            settingsIntent.putExtra("settings_BTS1", "5");
-            settingsIntent.putExtra("settings_BTS2", "2");//0 = 2k, 9 = 1024k
+            settingsIntent.putExtra("settings_BTS1", "6");
+            settingsIntent.putExtra("settings_BTS2", "5");//0 = 2k, 9 = 1024k
             startActivity(settingsIntent);
         });
 
-=======
->>>>>>> 2d18ab6ed3e92668b3db6814e26ff339534cd660
         //TODO
         //make config for last setup and load it in this button
         btnLastSetup.setOnClickListener(v -> {

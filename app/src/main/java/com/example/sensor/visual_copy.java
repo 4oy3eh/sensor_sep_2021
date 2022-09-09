@@ -778,7 +778,8 @@ public class visual_copy extends AppCompatActivity {
                                         sVal[5] = (int) (tmp * res_multip);
                                         sensor6 = Double.valueOf(sVal[5]);
 
-                                        tmpSensor = new Sensor(sVal[0], sVal[1], sVal[2], sVal[3], sVal[4], sVal[5]);
+//                                        tmpSensor = new Sensor(sVal[0], sVal[1], sVal[2], sVal[3], sVal[4], sVal[5]);
+                                        // commented for no error
                                         if (CheckSavingOn) {
                                             tempData.println(tmpSensor.toTxtData(timeOfStart));
                                         }
@@ -823,22 +824,6 @@ public class visual_copy extends AppCompatActivity {
                                                             Math.cos(Math.toRadians(alphaDegree)) * cop_sensor4 / cop_sensorSum * Math.sin(Math.toRadians(180)) +
                                                             cop_sensor5 / cop_sensorSum * Math.sin(Math.toRadians(360 - alphaDegree)) +
                                                             cop_sensor6 / cop_sensorSum * Math.sin(Math.toRadians(180 + alphaDegree))) / 6);
-
-//                                            xValue = (float) ((
-//                                                    cop_sensor1   * Math.cos(Math.toRadians(alphaDegree)) +
-//                                                    cop_sensor2  * Math.cos(Math.toRadians(180 - alphaDegree)) +
-//                                                    Math.cos(Math.toRadians(alphaDegree)) * cop_sensor3  * Math.cos(Math.toRadians(0)) +
-//                                                    Math.cos(Math.toRadians(alphaDegree)) * cop_sensor4  * Math.cos(Math.toRadians(180)) +
-//                                                    cop_sensor5  * Math.cos(Math.toRadians(360 - alphaDegree)) +
-//                                                    cop_sensor6  * Math.cos(Math.toRadians(180 + alphaDegree)))/cop_calibSum);
-//
-//                                            yValue = (float) ((
-//                                                     cop_sensor1 / cop_calibSum * Math.sin(Math.toRadians(alphaDegree)) +
-//                                                     cop_sensor2 / cop_calibSum * Math.sin(Math.toRadians(180 - alphaDegree)) +
-//                                                     Math.cos(Math.toRadians(alphaDegree)) * cop_sensor3 / cop_calibSum * Math.sin(Math.toRadians(0)) +
-//                                                     Math.cos(Math.toRadians(alphaDegree)) * cop_sensor4 / cop_calibSum * Math.sin(Math.toRadians(180)) +
-//                                                     cop_sensor5 / cop_calibSum * Math.sin(Math.toRadians(360 - alphaDegree)) +
-//                                                     cop_sensor6 / cop_calibSum * Math.sin(Math.toRadians(180 + alphaDegree)))/cop_calibSum);
 
 
                                             List_xValue.add(xValue);
