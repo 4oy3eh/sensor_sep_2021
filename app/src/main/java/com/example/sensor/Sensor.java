@@ -2,6 +2,7 @@ package com.example.sensor;
 
 import android.os.Build;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Sensor {
@@ -9,14 +10,47 @@ public class Sensor {
     private double[] sensorValue;
     private double[] calibrationSensorValue;
     private double[] normalizedSensorValue;
-    private final int ALPHA_DEGREE = 75;
-    private final int MAX_SENSOR_COUNT = 8;
+    private static final int ALPHA_DEGREE = 75;
+
+    public static int getMaxSensorCount() {
+        return MAX_SENSOR_COUNT;
+    }
+
+    private static final int MAX_SENSOR_COUNT = 8;
+    private ArrayList<Float> listXValue;
+    private ArrayList<Float> listYValue;
+
+    public ArrayList<Float> getListXValue() {
+        return listXValue;
+    }
+
+    public ArrayList<Float> getListYValue() {
+        return listYValue;
+    }
+
+    public void addValueListXValue() {
+        this.listXValue.add(xValueMethod2());
+    }
+
+    public void addValueListYValue() {
+        this.listYValue.add(yValueMethod2());
+    }
+
+    public void clearListXAndYValue(){
+        this.listXValue.clear();
+        this.listYValue.clear();
+    }
+
+
+
 
     public Sensor(String name){
         this.sensorName = name;
         this.sensorValue = new double[MAX_SENSOR_COUNT];
         this.calibrationSensorValue = new double[MAX_SENSOR_COUNT];
         this.normalizedSensorValue = new double[MAX_SENSOR_COUNT];
+        this.listXValue = new ArrayList<>();
+        this.listYValue = new ArrayList<>();
     }
 
 //for writing data
@@ -53,6 +87,13 @@ public class Sensor {
 
 
 //getters setters
+
+    public int[] getSensorPercent(){
+        int[] ans = new int[MAX_SENSOR_COUNT];
+        for (int i = 0; i < MAX_SENSOR_COUNT; i++)
+            ans[i] = (int) (normalizedSensorValue[i] / calibrationSensorValue[i] * 100);
+        return ans;
+    }
 
     public double[] getSensorValueArray() {
         return sensorValue;
@@ -116,23 +157,20 @@ public class Sensor {
     // normalization value setter
     // getting the real pressure applied by reducing actual value from calibrated zero pressure
     // value
-    public void doSignalNormalization(){//must be more than 0
+    public void doSignalNormalization(){
+        //must be more than 0
         //actually if less than zero calibration was done bad or sensor showing inaccurate data
         for (int i = 0; i < MAX_SENSOR_COUNT; i++)
             this.normalizedSensorValue[i] = Math.max(0,calibrationSensorValue[i] - sensorValue[i]);
     }
 
-
     private double normalizationSum(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return Arrays.stream(normalizedSensorValue).count();
-        } else {
             double normalizedSum = 0;
             for(int i = 0; i < MAX_SENSOR_COUNT; i++)
                 normalizedSum += normalizedSensorValue[i];
             return normalizedSum;
-        }
     }
+
 
     private double calibrationSum(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -160,35 +198,55 @@ public class Sensor {
     }
 
     public float xValueMethod2(){
-        return (float) ((
-                normalizedSensorValue[0] / calibrationSensorValue[0] * Math.cos(Math.toRadians(ALPHA_DEGREE)) +
-                        normalizedSensorValue[1] / calibrationSensorValue[1] * Math.cos(Math.toRadians(180 - ALPHA_DEGREE)) +
-                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * normalizedSensorValue[2] / calibrationSensorValue[2] * Math.cos(Math.toRadians(0)) +
-                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * normalizedSensorValue[3] / calibrationSensorValue[3] * Math.cos(Math.toRadians(180)) +
-                        normalizedSensorValue[4] / calibrationSensorValue[4] * Math.cos(Math.toRadians(360 - ALPHA_DEGREE)) +
-                        normalizedSensorValue[5] / calibrationSensorValue[5] * Math.cos(Math.toRadians(180 + ALPHA_DEGREE)))/6);
+        double a = Math.cos(Math.toRadians(ALPHA_DEGREE));
+        double b = Math.cos(Math.toRadians(180 - ALPHA_DEGREE));
+        double c = Math.cos(Math.toRadians(0)) * Math.cos(Math.toRadians(ALPHA_DEGREE));
+        double d = Math.cos(Math.toRadians(180)) * Math.cos(Math.toRadians(ALPHA_DEGREE));
+        double e = Math.cos(Math.toRadians(360 - ALPHA_DEGREE));
+        double f = Math.cos(Math.toRadians(180 + ALPHA_DEGREE));
+        float qwe = (float) ((
+                normalizedSensorValue[0] / calibrationSensorValue[0] * a +
+                        normalizedSensorValue[1] / calibrationSensorValue[1] * b +
+                        normalizedSensorValue[2] / calibrationSensorValue[2] * c +
+                        normalizedSensorValue[3] / calibrationSensorValue[3] * d +
+                        normalizedSensorValue[4] / calibrationSensorValue[4] * e +
+                        normalizedSensorValue[5] / calibrationSensorValue[5] * f)/0.75);
+        return qwe;
     }
 
     public float yValueMethod1(){
         double normalizedSensorSum = normalizationSum();
+        double a = Math.sin(Math.toRadians(ALPHA_DEGREE));
+        double b = Math.sin(Math.toRadians(180 - ALPHA_DEGREE));
+        double c = Math.sin(Math.toRadians(0)) * Math.cos(Math.toRadians(ALPHA_DEGREE));
+        double d = Math.sin(Math.toRadians(180)) * Math.cos(Math.toRadians(ALPHA_DEGREE));
+        double e = Math.sin(Math.toRadians(360 - ALPHA_DEGREE));
+        double f = Math.sin(Math.toRadians(180 + ALPHA_DEGREE));
         return (float) (
-                normalizedSensorValue[0] / normalizedSensorSum * Math.sin(Math.toRadians(ALPHA_DEGREE)) +
-                        normalizedSensorValue[1] / normalizedSensorSum * Math.sin(Math.toRadians(180 - ALPHA_DEGREE)) +
-                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * normalizedSensorValue[2] / normalizedSensorSum * Math.sin(Math.toRadians(0)) +
-                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * normalizedSensorValue[3] / normalizedSensorSum * Math.sin(Math.toRadians(180)) +
-                        normalizedSensorValue[4] / normalizedSensorSum * Math.sin(Math.toRadians(360 - ALPHA_DEGREE)) +
-                        normalizedSensorValue[5] / normalizedSensorSum * Math.sin(Math.toRadians(180 + ALPHA_DEGREE)));
+                normalizedSensorValue[0] / normalizedSensorSum * a +
+                        normalizedSensorValue[1] / normalizedSensorSum * b +
+                        normalizedSensorValue[2] / normalizedSensorSum * c +
+                        normalizedSensorValue[3] / normalizedSensorSum * d +
+                        normalizedSensorValue[4] / normalizedSensorSum * e +
+                        normalizedSensorValue[5] / normalizedSensorSum * f);
     }
 
     public float yValueMethod2(){
-
-        return (float) ((
-                normalizedSensorValue[0] / calibrationSensorValue[0] * Math.sin(Math.toRadians(ALPHA_DEGREE)) +
-                        sensorValue[1] / normalizedSensorValue[1] * Math.sin(Math.toRadians(180 - ALPHA_DEGREE)) +
-                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * normalizedSensorValue[2] / calibrationSensorValue[2] * Math.sin(Math.toRadians(0)) +
-                        Math.cos(Math.toRadians(ALPHA_DEGREE)) * normalizedSensorValue[3] / calibrationSensorValue[3] * Math.sin(Math.toRadians(180)) +
-                        normalizedSensorValue[4] / calibrationSensorValue[4] * Math.sin(Math.toRadians(360 - ALPHA_DEGREE)) +
-                        normalizedSensorValue[5] / calibrationSensorValue[5] * Math.sin(Math.toRadians(180 + ALPHA_DEGREE)))/6);
+        double a = Math.sin(Math.toRadians(ALPHA_DEGREE));
+        double b = Math.sin(Math.toRadians(180 - ALPHA_DEGREE));
+        double c = Math.sin(Math.toRadians(0)) * Math.cos(Math.toRadians(ALPHA_DEGREE));
+        double d = 0;
+//        double d = Math.sin(Math.toRadians(180)) * Math.cos(Math.toRadians(ALPHA_DEGREE));
+        double e = Math.sin(Math.toRadians(360 - ALPHA_DEGREE));
+        double f = Math.sin(Math.toRadians(180 + ALPHA_DEGREE));
+        float qwe = (float) ((
+                        normalizedSensorValue[0] / calibrationSensorValue[0] * a +
+                        normalizedSensorValue[1] / calibrationSensorValue[1] * b +
+                        normalizedSensorValue[2] / calibrationSensorValue[2] * c +
+                        normalizedSensorValue[3] / calibrationSensorValue[3] * d +
+                        normalizedSensorValue[4] / calibrationSensorValue[4] * e +
+                        normalizedSensorValue[5] / calibrationSensorValue[5] * f)/2);
+        return qwe;
     }
 
     //get y value for cop

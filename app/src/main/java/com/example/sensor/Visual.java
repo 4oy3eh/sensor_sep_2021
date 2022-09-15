@@ -52,20 +52,32 @@ import java.io.PrintWriter;
 
 
 public class Visual extends AppCompatActivity {
-    private boolean isLeft, isCalib = false, first_time_canvas = true, dataReadIsOn = false,
+
+    // because this is solo class everything could be static
+
+    // everything UI is static because it is used in static thread later
+    private static ImageView imgCop;
+    private static ImageView imageLeftArrow, imageRightArrow, imageDownArrow, imageFeetOverlay;
+    private static TextView[] textSensor = new TextView[8];
+    private static ImageView[] imageSensorRedStripe = new ImageView[8];
+    private static ImageView[] imageSensorYellowStripe = new ImageView[8];
+    private static ImageView[] imageSensorGreenStripe = new ImageView[8];
+    // booleans are used in static thread
+    static boolean visualizationCOPIsOn = false, visualizationValuesIsOn = false, checkSavingOn =
+            false;
+    private CanvasToBitmap canvasToBitmap;
+
+    private boolean firstTimeCanvas = true, dataReadIsOn = false,
             isRunning;
+    private static boolean isLeft;
+
     private Button btnValues, btnCop, btnReconnect, btnPlay, btnTest, btnGraph, btnDoCalibration,
             btnSaveData,
             btnBreak;
     TextView bugtracker;
 
 
-    private ImageView imgCop;
-    private ImageView imageLeftArrow, imageRightArrow, imageDownArrow, imageFeetOverlay;
-    private static TextView[] textSensor = new TextView[8];
-    private static ImageView[] imageSensorRedStripe = new ImageView[8];
-    private static ImageView[] imageSensorYellowStripe = new ImageView[8];
-    private static ImageView[] imageSensorGreenStripe = new ImageView[8];
+
 
 
 
@@ -87,13 +99,13 @@ public class Visual extends AppCompatActivity {
     float arrayY30[] = new float[30];
     float arrayX5[] = {0, 0, 0, 0, 0};
     float arrayX30[] = new float[30];
-    final int sensorCount = 6;
+    final static int sensorCount = Sensor.getMaxSensorCount();
     int deviceHeight, deviceWidth;
     FileOutputStream fos;
     Handler bluetoothIn;
-    Thread forRefresh;
+    static Thread forRefresh;
     //for categories and refresh(showdata)
-    boolean checkVisualOn = false, checkDataOn = false, checkSavingOn = false;
+
     //save
     String filename = "", filepath = "SavedData";
 
@@ -291,6 +303,7 @@ public class Visual extends AppCompatActivity {
 
         //printing symbols to mark timestamps
         //for measurments
+
         btnBreak.setOnClickListener(v -> {
             if (checkSavingOn) {
                 tempData.println("---");
@@ -348,9 +361,9 @@ public class Visual extends AppCompatActivity {
             ValuesVisibility(View.GONE);
             GraphVisbility(View.VISIBLE);
             //checks
-            isCalib = false;
-            checkDataOn = false;
-            checkVisualOn = false;
+            visualizationValuesIsOn = false;
+            visualizationCOPIsOn = false;
+            thread.setCopProcessing(false);
         });
         //      x1   x2
         //      x3   x4
@@ -366,9 +379,10 @@ public class Visual extends AppCompatActivity {
             GraphVisbility(View.GONE);
             ValuesVisibility(View.VISIBLE);
             //checks
-            isCalib = false;
-            checkDataOn = true;
-            checkVisualOn = false;
+
+            visualizationValuesIsOn = true;
+            visualizationCOPIsOn = false;
+            thread.setCopProcessing(false);
         });
 
 
@@ -383,22 +397,22 @@ public class Visual extends AppCompatActivity {
             GraphVisbility(View.GONE);
             CopVisibility(View.VISIBLE);
             //checks
-            isCalib = false;
-            checkDataOn = false;
-            checkVisualOn = true;
-            first_time_canvas = true;
+            visualizationValuesIsOn = false;
+            visualizationCOPIsOn = true;
+            thread.setCopProcessing(true);
+            firstTimeCanvas = true;
         });
 
         btnDoCalibration.setOnClickListener(v -> {
             VisualMainButtonsVisibility(View.VISIBLE);
 
             //data
-            checkDataOn = false;
-            checkVisualOn = false;
-            isCalib = false;
+            visualizationValuesIsOn = false;
+            visualizationCOPIsOn = false;
+            thread.setCopProcessing(false);
             //saving data for calibration
             thread.doCalibration();
-            isCalib = true;
+            canvasToBitmap = new CanvasToBitmap(getBaseContext());
 
             for (int sensorNumber = 0; sensorNumber < 6; sensorNumber++) {
                 setSensorTextValue(sensorNumber);
@@ -417,41 +431,9 @@ public class Visual extends AppCompatActivity {
 
 
         //cop
-        if (checkVisualOn) {
+        if (visualizationCOPIsOn) {
             //arrows for left
-            if (isLeft) {
-                if ((thread.sensor.getCalibrationSensorValueArray()[3] / 4) + thread.sensor.getCalibrationSensorValueArray()[4] < thread.sensor.getCalibrationSensorValueArray()[3]) { //cop_sensor3 > cop_sensor4 &&
-                    imageLeftArrow.setVisibility(View.INVISIBLE);
-                    imageRightArrow.setVisibility(View.VISIBLE);
-                    imageDownArrow.setVisibility(View.INVISIBLE);
-                } else if ((thread.sensor.getCalibrationSensorValueArray()[4] / 4) + thread.sensor.getCalibrationSensorValueArray()[3] < thread.sensor.getCalibrationSensorValueArray()[4]) { //cop_sensor4 > cop_sensor3 &&
-                    imageLeftArrow.setVisibility(View.VISIBLE);
-                    imageRightArrow.setVisibility(View.INVISIBLE);
-                    imageDownArrow.setVisibility(View.INVISIBLE);
-                } else {
-                    imageLeftArrow.setVisibility(View.INVISIBLE);
-                    imageRightArrow.setVisibility(View.INVISIBLE);
-                    imageDownArrow.setVisibility(View.VISIBLE);
-                }
-            }
-            //arrows for right
-            if (!isLeft) {
-                if ((thread.sensor.getCalibrationSensorValueArray()[4] / 5) + thread.sensor.getCalibrationSensorValueArray()[3] < thread.sensor.getCalibrationSensorValueArray()[4]) { //cop_sensor4 > cop_sensor3
-                    imageLeftArrow.setVisibility(View.INVISIBLE);
-                    imageRightArrow.setVisibility(View.VISIBLE);
-                    imageDownArrow.setVisibility(View.INVISIBLE);
 
-                } else if ((thread.sensor.getCalibrationSensorValueArray()[3] / 5) + thread.sensor.getCalibrationSensorValueArray()[4] < thread.sensor.getCalibrationSensorValueArray()[3]) {
-                    //cop_sensor3 > cop_sensor4
-                    imageLeftArrow.setVisibility(View.VISIBLE);
-                    imageRightArrow.setVisibility(View.INVISIBLE);
-                    imageDownArrow.setVisibility(View.INVISIBLE);
-                } else {
-                    imageLeftArrow.setVisibility(View.INVISIBLE);
-                    imageRightArrow.setVisibility(View.INVISIBLE);
-                    imageDownArrow.setVisibility(View.VISIBLE);
-                }
-            }
 
             CanvasToBitmap canvasToBitmap = new CanvasToBitmap(getBaseContext());
             Bitmap copBitmap = canvasToBitmap.bitmap;
@@ -484,88 +466,74 @@ public class Visual extends AppCompatActivity {
         }
 
 
-        forRefresh = new Thread() {
+
+
+
+
+         forRefresh = new Thread() {
             @Override
             public void run() {
-                while (!isInterrupted()) {
                     try {
-                        try {
                             runOnUiThread(new Runnable() {
-
-
                                 @Override
                                 public void run() {
-                                    int updateCount = 0;
-                                    int frameCount = 0;
-                                    double averageUPS, averageFPS;
-
-                                    long startTime;
-                                    long elapsedTime;
-                                    long sleepTime;
-                                    final double MAX_UPS = 30.0;
-                                    final double UPS_PERIOD = 1E+3/MAX_UPS;
-
-                                    isRunning = false;
-
-                                    startTime = System.currentTimeMillis();
-                                    while(isRunning){
-
-//                                        doShit();
-                                        updateCount++;
-                                        frameCount++;
-                                        elapsedTime = System.currentTimeMillis() - startTime;
-
-                                        sleepTime = (long) (updateCount * UPS_PERIOD - elapsedTime);
-                                        if(sleepTime > 0){
-                                            try {
-                                                sleep(sleepTime);
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-
-                                        while(sleepTime < 0 && updateCount < MAX_UPS - 1){
-//                                            doShit();
-                                            updateCount++;
-                                        }
 
 
+                                    if(visualizationValuesIsOn) {
+                                        visualizationValues();
+                                    }else if(visualizationCOPIsOn){
+                                        visualizationCOP();
+                                        copArrowsVisibility();
+                                    }else {
 
-
-                                        elapsedTime = System.currentTimeMillis() - startTime;
-                                        if (elapsedTime >= 1000){
-                                            averageUPS = updateCount / (1E-3 * elapsedTime);
-                                            averageFPS = frameCount / (1E-3 * elapsedTime);
-                                            System.out.println("Update count is " + averageUPS +
-                                                    " " +
-                                                    "FPS is " + averageFPS);
-                                            updateCount = 0;
-                                            frameCount = 0;
-                                            startTime = System.currentTimeMillis();
-
-
-                                        }
                                     }
                                 }
                             });
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
                     } catch (NullPointerException e) {
 
                     }
-                }
             }
         };
-
-
-
-
     }
 
 
-    private void doShit(){
+    public static void copArrowsVisibility(){
+        if (isLeft) {
+            if (thread.sensor.getSensorPercent()[2] + 20 > thread.sensor.getSensorPercent()[3]) { //cop_sensor3 > cop_sensor4 &&
+                imageLeftArrow.setVisibility(View.INVISIBLE);
+                imageRightArrow.setVisibility(View.VISIBLE);
+                imageDownArrow.setVisibility(View.INVISIBLE);
+            } else if (thread.sensor.getSensorPercent()[3] + 20 > thread.sensor.getSensorPercent()[2]) { //cop_sensor4 > cop_sensor3 &&
+                imageLeftArrow.setVisibility(View.VISIBLE);
+                imageRightArrow.setVisibility(View.INVISIBLE);
+                imageDownArrow.setVisibility(View.INVISIBLE);
+            } else {
+                imageLeftArrow.setVisibility(View.INVISIBLE);
+                imageRightArrow.setVisibility(View.INVISIBLE);
+                imageDownArrow.setVisibility(View.VISIBLE);
+            }
+        }
+        //arrows for right
+        if (!isLeft) {
+            if (thread.sensor.getSensorPercent()[2] + 20 > thread.sensor.getSensorPercent()[3]) { //cop_sensor3 > cop_sensor4
+                imageLeftArrow.setVisibility(View.INVISIBLE);
+                imageRightArrow.setVisibility(View.VISIBLE);
+                imageDownArrow.setVisibility(View.INVISIBLE);
+            } else if (thread.sensor.getSensorPercent()[3] + 20 > thread.sensor.getSensorPercent()[4]) { //cop_sensor4 > cop_sensor3
+                imageLeftArrow.setVisibility(View.VISIBLE);
+                imageRightArrow.setVisibility(View.INVISIBLE);
+                imageDownArrow.setVisibility(View.INVISIBLE);
+            } else {
+                imageLeftArrow.setVisibility(View.INVISIBLE);
+                imageRightArrow.setVisibility(View.INVISIBLE);
+                imageDownArrow.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+
+
+    public static void visualizationValues(){
         try {
             for (int i = 0; i < sensorCount; i++) {
                 if (!thread.answerToIfCalibrationIsDone()) {
@@ -575,11 +543,15 @@ public class Visual extends AppCompatActivity {
                     setSensorTextPercent(i);
                     RedYellowGreenStripesCalib(i);
                 }
-
             }
         }catch (NullPointerException e){
-
+            e.printStackTrace();
         }
+    }
+
+    public void visualizationCOP(){
+        Bitmap copBitmap = canvasToBitmap.bitmap;
+        imgCop.setImageBitmap(copBitmap);
     }
 
 
@@ -595,7 +567,6 @@ public class Visual extends AppCompatActivity {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Bitmap bitmapLeft = BitmapFactory.decodeResource(getResources(), R.drawable.main_bez_liniy_l);
         Bitmap bitmapRight = BitmapFactory.decodeResource(getResources(), R.drawable.main_bez_liniy_r);
-
 
         float pictureDensity = bitmapLeft.getDensity(); // 374
         float pictureHeight = bitmapLeft.getHeight(); //6854
@@ -645,13 +616,13 @@ public class Visual extends AppCompatActivity {
             paint.setColor(Color.BLUE);
             canvas.drawPoint(xValuePixel, yValuePixel, paint);
             //to remove bug with no values in
-            if (thread.getListXValue().size() > 0 && thread.getListYValue().size() > 0) {
-                arrayX5 = arrayOf5(thread.getListXValue());
-                arrayY5 = arrayOf5(thread.getListYValue());
+            if (thread.sensor.getListXValue().size() > 0 && thread.sensor.getListYValue().size() > 0) {
+                arrayX5 = arrayOf5(thread.sensor.getListXValue());
+                arrayY5 = arrayOf5(thread.sensor.getListYValue());
                 arrayX30 = plus5from30(arrayX30, arrayX5);
                 arrayY30 = plus5from30(arrayY30, arrayY5);
 //                canvas.drawText(String.valueOf(Array_x_5[0]) + " - " + String.valueOf(Array_x_5[1]), 50, 50, paint);
-                thread.clearListXAndYValue();
+                thread.sensor.clearListXAndYValue();
             }
             //draw 30 lines
             for (int n = 0; n < arrayX30.length - 1; n++) {
@@ -688,54 +659,59 @@ public class Visual extends AppCompatActivity {
     }
 
 
-    public class DrawLayer extends View {
-        public DrawLayer(Context context) {
-            super(context);
-        }
+//    public class DrawLayer extends View {
+//        public DrawLayer(Context context) {
+//            super(context);
+//        }
+//
+//        @Override
+//        protected void onDraw(Canvas canvas) {
+//            super.onDraw(canvas);
+//
+//            Paint myPaint = new Paint();
+//            myPaint.setColor(Color.rgb(0, 255, 255));
+//            myPaint.setTextSize(60);
+//            myPaint.setStrokeWidth(50);
+//
+//
+//            Bitmap copBitmap;
+//            Canvas myCanvas = new Canvas();
+//            if(isLeft){
+//                copBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.main_bez_liniy_l);
+//            } else {
+//                copBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.main_bez_liniy_r);
+//            }
+//
+////            myCanvas.drawBitmap(copBitmap, 0, 0, null);
+//            xMiddle = copBitmap.getWidth() / 2;
+//            yMiddle = copBitmap.getHeight() / 2;
+//
+//
+//
+//
+//
+//        }
+//
+//    }
 
-        @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
 
-            Paint myPaint = new Paint();
-            myPaint.setColor(Color.rgb(0, 255, 255));
-            myPaint.setTextSize(60);
-            myPaint.setStrokeWidth(50);
-
-
-            Bitmap copBitmap;
-            Canvas myCanvas = new Canvas();
-            if(isLeft){
-                copBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.main_bez_liniy_l);
-            } else {
-                copBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.main_bez_liniy_r);
-            }
-
-//            myCanvas.drawBitmap(copBitmap, 0, 0, null);
-            xMiddle = copBitmap.getWidth() / 2;
-            yMiddle = copBitmap.getHeight() / 2;
-
-
-           
-
-
-        }
-
-    }
-
-
-    public void CopCheckVisibility(int visibility) {
+    private void CopCheckVisibility(int visibility) {
         imageFeetOverlay.setVisibility(visibility);
         for (int i = 0; i<6;i++){
             imageSensorRedStripe[i].setVisibility(visibility);
+            imageSensorYellowStripe[i].setVisibility(visibility);
+            imageSensorGreenStripe[i].setVisibility(visibility);
+
             textSensor[i].setVisibility(visibility);
         }
     }
 
-    public void ValuesVisibility(int visibility) {
+    private void ValuesVisibility(int visibility) {
         imageFeetOverlay.setVisibility(visibility);
         for (int i = 0; i<6;i++){
             imageSensorRedStripe[i].setVisibility(visibility);
+            imageSensorYellowStripe[i].setVisibility(visibility);
+            imageSensorGreenStripe[i].setVisibility(visibility);
             textSensor[i].setVisibility(visibility);
         }
     }
@@ -748,7 +724,7 @@ public class Visual extends AppCompatActivity {
 
     public static void setSensorTextPercent(int sensorNumber){
         textSensor[sensorNumber].setText(MessageFormat.format("{0} %",
-                String.valueOf((int) (((thread.sensor.getNormalizedSensorValueArray()[sensorNumber]) / thread.sensor.getCalibrationSensorValueArray()[sensorNumber])*100))));
+                String.valueOf((int) (thread.sensor.getSensorPercent()[sensorNumber]))));
     }
 
 
@@ -803,10 +779,7 @@ public class Visual extends AppCompatActivity {
         }
     }
 
-        private void updateUI() {
 
-// Подробное обновление
-        }
 
 
     private void CopVisibility(int visibility) {
@@ -829,7 +802,7 @@ public class Visual extends AppCompatActivity {
 
 
 
-    public boolean isStoragePermissionGranted() {
+    private boolean isStoragePermissionGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
@@ -871,15 +844,15 @@ public class Visual extends AppCompatActivity {
         }
     }
 
-    public int getDeviceWidth() {
+    private int getDeviceWidth() {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
 
-    public int getDeviceHeight() {
+    private int getDeviceHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
-    public static float[] arrayOf5(ArrayList<Float> arrayList) {
+    private static float[] arrayOf5(ArrayList<Float> arrayList) {
         int size = arrayList.size();
         float newArray[] = new float[5];
         int average = size / 4;
@@ -898,18 +871,18 @@ public class Visual extends AppCompatActivity {
         return newArray;
     }
 
-    public static float getPictureXValue(float xValue, float canvasWidth) {
+    private static float getPictureXValue(float xValue, float canvasWidth) {
         float xValuePixel = (xValue + 1) * canvasWidth / 2;
 
         return xValuePixel;
     }
 
-    public static float getPictureYValue(float yValue, float canvasHeight) {
+    private static float getPictureYValue(float yValue, float canvasHeight) {
         float yValuePixel = (-1 * yValue + 1) * canvasHeight / 2;
         return yValuePixel;
     }
 
-    public static float[] plus5from30(float arrayof30[], float arrayof5[]) {
+    private static float[] plus5from30(float arrayof30[], float arrayof5[]) {
         int i;
 
         // create a new array of size n+1

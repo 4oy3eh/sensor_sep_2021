@@ -16,13 +16,14 @@ public class ConnectedThread extends Thread {
     private final double RESISTANCE_MULTIPLIER;
     public Sensor sensor;
     private PrintWriter mmDataWriter;
+
+
+
     private boolean CopProcessing = false;
     private final byte stopByte;
     private final byte startByte;
     private boolean startWorker;
     private final int LENGTH_DATA_PACKET;
-    private ArrayList<Float> listXValue;
-    private ArrayList<Float> listYValue;
     private boolean calibrationDoneTrigger = false;
 
 
@@ -33,8 +34,6 @@ public class ConnectedThread extends Thread {
         stopByte = (byte) 0x55;
         startByte = (byte) 0xF0;
         LENGTH_DATA_PACKET = 47;
-        listXValue = new ArrayList<>();
-        listYValue = new ArrayList<>();
         InputStream tmpIn = null;
         OutputStream tmpOut = null;
         sensor = new Sensor(sensorName);
@@ -116,26 +115,19 @@ public class ConnectedThread extends Thread {
 
                                 }
 
+
+
                                 if(answerToIfCalibrationIsDone()){
                                     sensor.doSignalNormalization();
                                 }
 
-                                for(int sensorCount = 0; sensorCount < 6; sensorCount++){
-                                    try {
-//                                        Visual.RedYellowGreenStripesCalib(sensorCount);
-                                        Visual.setSensorTextValue(sensorCount);
-
-
-                                    }catch(Exception e){
-                                        e.printStackTrace();
-                                    }
+                                if(CopProcessing){
+                                    sensor.addValueListXValue();
+                                    sensor.addValueListYValue();
                                 }
 
-
-
-
-
-
+                                // single refresh after analysing 1 data segment
+                                Visual.forRefresh.run();
 
 
                                 //TODO
@@ -146,10 +138,7 @@ public class ConnectedThread extends Thread {
                                 }
 
                                 // trigger i/o for COP button enabled
-                                if(CopProcessing){
-                                    listXValue.add(sensor.xValueMethod2());
-                                    listYValue.add(sensor.yValueMethod2());
-                                }
+
                                 pos = 0;
                             }
                         } else { // increment the counter
@@ -158,12 +147,12 @@ public class ConnectedThread extends Thread {
                         }
                     }
                 }
+
             } catch (IOException e) {
                 //IOException
                 startWorker = false;
                 break;
             }
-
         }
     }
 
@@ -193,18 +182,10 @@ public class ConnectedThread extends Thread {
         return calibrationDoneTrigger;
     }
 
-    public ArrayList<Float> getListXValue() {
-        return listXValue;
+    public void setCopProcessing(boolean copProcessing) {
+        CopProcessing = copProcessing;
     }
 
-    public ArrayList<Float> getListYValue() {
-        return listYValue;
-    }
-
-    public void clearListXAndYValue(){
-        listXValue.clear();
-        listYValue.clear();
-    }
 
 }
 
