@@ -66,8 +66,9 @@ public class Visual extends AppCompatActivity {
     static boolean visualizationCOPIsOn = false, visualizationValuesIsOn = false, checkSavingOn =
             false;
     private CanvasToBitmap canvasToBitmap;
+    private Bitmap copBitmap;
 
-    private boolean firstTimeCanvas = true, dataReadIsOn = false,
+    private boolean resetThePicture = true, dataReadIsOn = false,
             isRunning;
     private static boolean isLeft;
 
@@ -92,7 +93,7 @@ public class Visual extends AppCompatActivity {
     int refreshSpeed;
     static double resistanceMultiplier;
     static int maxValue;
-
+    static int counterForRefreshPicture;
     double sensorArray[], calibrationValuesArray[];
     float xMiddle, yMiddle, xValuePixel, yValuePixel, xValueOld, yValueOld;
     float arrayY5[] = new float[5];
@@ -400,7 +401,7 @@ public class Visual extends AppCompatActivity {
             visualizationValuesIsOn = false;
             visualizationCOPIsOn = true;
             thread.setCopProcessing(true);
-            firstTimeCanvas = true;
+            resetThePicture = true;
         });
 
         btnDoCalibration.setOnClickListener(v -> {
@@ -436,7 +437,7 @@ public class Visual extends AppCompatActivity {
 
 
             CanvasToBitmap canvasToBitmap = new CanvasToBitmap(getBaseContext());
-            Bitmap copBitmap = canvasToBitmap.bitmap;
+            Bitmap copBitmap = canvasToBitmap.resultBitmap;
             imgCop.setImageBitmap(copBitmap);
 
 //        }
@@ -550,8 +551,14 @@ public class Visual extends AppCompatActivity {
     }
 
     public void visualizationCOP(){
-        Bitmap copBitmap = canvasToBitmap.bitmap;
+        canvasToBitmap.redraw();
+        copBitmap = canvasToBitmap.resultBitmap;
         imgCop.setImageBitmap(copBitmap);
+        counterForRefreshPicture++;
+        if (counterForRefreshPicture == 50){
+            counterForRefreshPicture = 0;
+            resetThePicture = true;
+        }
     }
 
 
@@ -560,37 +567,39 @@ public class Visual extends AppCompatActivity {
         //for canvas
         float canvasHeight, canvasWidth, floatDensity, offset;
         int intDensity;
-        boolean isFirstTimeCanvas = true;
         Paint paint = new Paint();
+        Paint paintForCopLines = new Paint();
+        Paint paintForAxes = new Paint();
+        Paint rawPaint = new Paint();
         int width = imgCop.getWidth();
         int height = imgCop.getHeight();
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Bitmap resultBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Bitmap bitmapLeft = BitmapFactory.decodeResource(getResources(), R.drawable.main_bez_liniy_l);
         Bitmap bitmapRight = BitmapFactory.decodeResource(getResources(), R.drawable.main_bez_liniy_r);
-
+        Canvas canvas = new Canvas(resultBitmap);
+        // l = r doesn't matter
         float pictureDensity = bitmapLeft.getDensity(); // 374
         float pictureHeight = bitmapLeft.getHeight(); //6854
         float pictureWidth = bitmapLeft.getWidth();//3855
-        //l = r doesnt matter
+
 
         public CanvasToBitmap(Context context) {
             super(context);
-            Canvas canvas = new Canvas(bitmap);
+            draw(canvas);
+        }
+
+        public void redraw(){
             draw(canvas);
         }
 
 
         @Override
         public void onDraw(Canvas canvas) {
-
-            paint.setColor(Color.BLUE);
-            paint.setStyle(Paint.Style.FILL);
-            paint.setTextSize(50);
-            if (isFirstTimeCanvas) {
-                canvas.setBitmap(bitmap);
-
+            paintForAxes.setColor(Color.BLUE);
+            paintForAxes.setStyle(Paint.Style.FILL);
+            paintForAxes.setTextSize(50);
+            if (resetThePicture) {
                 //getting Density to match xml
-
                 canvasHeight = canvas.getHeight();
                 canvasWidth = canvas.getWidth();
                 floatDensity = pictureDensity / pictureHeight * canvasHeight;
@@ -602,59 +611,36 @@ public class Visual extends AppCompatActivity {
                 xMiddle = canvasWidth / 2;
                 yMiddle = canvasHeight / 2;
                 if(isLeft)
-                    canvas.drawBitmap(bitmapLeft, offset, 0, paint);
-                else canvas.drawBitmap(bitmapRight, offset, 0, paint);
+                    canvas.drawBitmap(bitmapLeft, offset, 0, rawPaint);
+                else canvas.drawBitmap(bitmapRight, offset, 0, rawPaint);
                 //x
-                canvas.drawLine(xMiddle, 0, xMiddle, canvas.getHeight(), paint);
+                canvas.drawLine(xMiddle, 0, xMiddle, canvas.getHeight(), paintForAxes);
                 //y
-                canvas.drawLine(0, yMiddle, canvas.getWidth(), yMiddle, paint);
-                isFirstTimeCanvas = false;
+                canvas.drawLine(0, yMiddle, canvas.getWidth(), yMiddle, paintForAxes);
+                canvas.save();
+                resetThePicture = false;
             }
-
-
-            paint.setStrokeWidth(7);
-            paint.setColor(Color.BLUE);
-            canvas.drawPoint(xValuePixel, yValuePixel, paint);
             //to remove bug with no values in
             if (thread.sensor.getListXValue().size() > 0 && thread.sensor.getListYValue().size() > 0) {
                 arrayX5 = arrayOf5(thread.sensor.getListXValue());
                 arrayY5 = arrayOf5(thread.sensor.getListYValue());
                 arrayX30 = plus5from30(arrayX30, arrayX5);
                 arrayY30 = plus5from30(arrayY30, arrayY5);
-//                canvas.drawText(String.valueOf(Array_x_5[0]) + " - " + String.valueOf(Array_x_5[1]), 50, 50, paint);
                 thread.sensor.clearListXAndYValue();
             }
             //draw 30 lines
             for (int n = 0; n < arrayX30.length - 1; n++) {
-                float pictureXFirst = getPictureXValue(arrayX30[n], canvasWidth);
-                float pictureYFirst = getPictureYValue(arrayY30[n], canvasHeight);
-                float pictureXLast = getPictureXValue(arrayX30[n + 1], canvasWidth);
-                float pictureYLast = getPictureYValue(arrayY30[n + 1], canvasHeight);
-                paint.setStrokeWidth(2 + n / 3);
-                paint.setColor(Color.rgb(255 - 180 + n * 3, 0, 120));
-                canvas.drawLine(pictureXFirst, pictureYFirst, pictureXLast, pictureYLast, paint);
-                if (n == 28)
-                    paint.setColor(Color.RED);
-                canvas.drawPoint(pictureXLast, pictureYLast, paint);
-            }
-
-
-            xValueOld = xValuePixel;//ne uzaetsja
-            yValueOld = yValuePixel;
-
-
-//            ByteArrayOutputStream mByteArrayOutputStream = new ByteArrayOutputStream();
-
-
-            try {
-//                bitmap.compress(Bitmap.CompressFormat.JPEG, 100,    mByteArrayOutputStream); //default q = 100
-//                canvas.
-//                bitmap = BitmapFactory.decodeStream(new ByteArrayInputStream(mByteArrayOutputStream.toByteArray()));
-//                mByteArrayOutputStream.flush();
-//                mByteArrayOutputStream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            float pictureXFirst = getPictureXValue(arrayX30[n], canvasWidth);
+            float pictureYFirst = getPictureYValue(arrayY30[n], canvasHeight);
+            float pictureXLast = getPictureXValue(arrayX30[n + 1], canvasWidth);
+            float pictureYLast = getPictureYValue(arrayY30[n + 1], canvasHeight);
+            paintForCopLines.setStrokeWidth(2 + n / 3);
+            paintForCopLines.setColor(Color.rgb(255 - 180 + n * 3, 0, 120));
+            canvas.drawLine(pictureXFirst, pictureYFirst, pictureXLast, pictureYLast, paintForCopLines);
+            if (n == 28)
+                paintForCopLines.setColor(Color.RED);
+            canvas.drawPoint(pictureXLast, pictureYLast, paintForCopLines);
+        }
         }
     }
 

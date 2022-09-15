@@ -210,7 +210,7 @@ public class Sensor {
                         normalizedSensorValue[2] / calibrationSensorValue[2] * c +
                         normalizedSensorValue[3] / calibrationSensorValue[3] * d +
                         normalizedSensorValue[4] / calibrationSensorValue[4] * e +
-                        normalizedSensorValue[5] / calibrationSensorValue[5] * f)/0.75);
+                        normalizedSensorValue[5] / calibrationSensorValue[5] * f));
         return qwe;
     }
 
@@ -245,7 +245,7 @@ public class Sensor {
                         normalizedSensorValue[2] / calibrationSensorValue[2] * c +
                         normalizedSensorValue[3] / calibrationSensorValue[3] * d +
                         normalizedSensorValue[4] / calibrationSensorValue[4] * e +
-                        normalizedSensorValue[5] / calibrationSensorValue[5] * f)/2);
+                        normalizedSensorValue[5] / calibrationSensorValue[5] * f));
         return qwe;
     }
 
